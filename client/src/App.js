@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // import thư viện Axios
 import Header from './components/Header';
+import Footer from './components/Footer';
 import './App.css';
 // function App() {
 //   const [backendData, setBackendData] = useState([]);
@@ -36,6 +37,10 @@ function App() {
   return (
     <>
       <Header />
+      <h1>Homepage</h1>
+      <p>This is the homepage</p>
+
+      <Footer />
     </>
   );
 }
