@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // import thư viện Axios
-import Header from './components/Header';
-import Footer from './components/Footer';
+// import Header from './components/Header';
+// import Footer from './components/Footer';
+import Layout from './components/Layout';
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './components/Login';
+import { AuthProvider } from './slice/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
 // function App() {
 //   const [backendData, setBackendData] = useState([]);
 
@@ -35,13 +40,24 @@ import './App.css';
 // }
 function App() {
   return (
-    <>
-      <Header />
-      <h1>Homepage</h1>
-      <p>This is the homepage</p>
-
-      <Footer />
-    </>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/login' element={<Login />} />
+          <Route
+            path='/'
+            element={
+              <PrivateRoute>
+                <Layout />
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<h1>Homepage</h1>} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
+
 export default App;

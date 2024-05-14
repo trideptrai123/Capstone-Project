@@ -1,6 +1,7 @@
 import logo from '../assets/img/logo512.png';
 export default function Header() {
   return (
+  <header>
     <nav className='nav-bar'>
       <p>
         <img src={logo} alt='logo' />
@@ -17,5 +18,6 @@ export default function Header() {
         </li>
       </ul>
     </nav>
+  </header>
   );
 }
