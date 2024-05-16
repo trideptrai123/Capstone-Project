@@ -1,15 +1,26 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { useAuth } from '../slice/AuthContext';
+import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    login();
-    navigate('/');
+    axios
+      .post('http://localhost:4000/User', { username, password })
+      .then((result) => {
+        console.log(result);
+        if (result.data === 'Success') {
+          navigate('/');
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -24,6 +35,7 @@ const Login = () => {
             name='username'
             className='form-control'
             required
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className='form-group'>
@@ -34,6 +46,7 @@ const Login = () => {
             name='password'
             className='form-control'
             required
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <button type='submit' className='login-button'>
