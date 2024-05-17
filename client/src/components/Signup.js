@@ -12,7 +12,7 @@ const Signup = () => {
     e.preventDefault();
     // Implement your signup logic here
     axios
-      .post('http://localhost:4000/User', {
+      .post('http://localhost:4000/Signup', {
         username,
         email,
         password,

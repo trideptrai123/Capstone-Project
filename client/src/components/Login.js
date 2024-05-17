@@ -6,18 +6,20 @@ import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
-  const [username, setUsername] = useState();
+  const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-
+  const { login } = useAuth();
   const handleLogin = (e) => {
     e.preventDefault();
     axios
-      .post('http://localhost:4000/User', { username, password })
+      .post('http://localhost:4000/login', { email, password })
       .then((result) => {
         console.log(result);
         if (result.data === 'Success') {
+          login();
           navigate('/');
+        } else {
+          console.log(result.data);
         }
       })
       .catch((err) => console.log(err));
@@ -28,14 +30,14 @@ const Login = () => {
       <form className='login-form' onSubmit={handleLogin}>
         <h2>Login</h2>
         <div className='form-group'>
-          <label htmlFor='username'>Username:</label>
+          <label htmlFor='username'>Email:</label>
           <input
-            type='text'
-            id='username'
-            name='username'
+            type='email'
+            id='email'
+            name='email'
             className='form-control'
             required
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className='form-group'>
