@@ -1,32 +1,23 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import { AuthProvider } from './context/AuthContext';
-import PrivateRoute from './components/PrivateRoute';
+import './App.css';
+import HomePage from './components/Home/HomePage';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Login from './components/Login/Login';
+import Register from './components/register/Signup';
+import NavBar from './components/Navbar/Header';
+import { useState } from 'react';
 
-import Blog from '../src/pages/blog/Blog'; // Import the Blog component
-import "./App.css"
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
+    <Router>
+      <NavBar />
+      <div className='App'>
         <Routes>
+          <Route path='/' element={<HomePage />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Signup />} />
-          <Route path='/blog' element={<Blog />} />
-          <Route
-            path='/'
-            element={
-              <PrivateRoute>
-                <Layout />
-              </PrivateRoute>
-            }
-          />
+          <Route path='/register' element={<Register />} />
         </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+      </div>
+    </Router>
   );
 }
 
