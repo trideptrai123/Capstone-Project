@@ -1,46 +1,97 @@
-import "./login.css";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { loginUser } from "../../redux/apiRequest";
-import { useDispatch } from "react-redux";
-const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+import { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Form, Button, Row, Col } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+
+import FormContainer from '../loader/FormContainer';
+import Loader from '../loader/Loader';
+
+import { useLoginMutation } from '../../redux/usersApiSlice';
+import { setCredentials } from '../../redux/authSlice';
+import { toast } from 'react-toastify';
+import styles from './LoginScreen.module.css';
+
+const LoginScreen = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const [login, { isLoading }] = useLoginMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get('redirect') || '/';
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [navigate, redirect, userInfo]);
+
+  const submitHandler = async (e) => {
     e.preventDefault();
-    const newUser = {
-      username: username,
-      password: password,
-    };
-    loginUser(newUser, dispatch, navigate);
+    try {
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate(redirect);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
   };
+
   return (
-    <section className="login-container">
-      <div className="login-title"> Log in</div>
-      <form onSubmit={handleLogin}>
-        <label>USERNAME</label>
-        <input
-          type="text"
-          placeholder="Enter your username"
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <label>PASSWORD</label>
-        <input
-          type="password"
-          placeholder="Enter your password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit"> Continue </button>
-      </form>
-      <div className="login-register"> Don't have an account yet? </div>
-      <Link className="login-register-link" to="/register">
-        Register one for free
-      </Link>
-    </section>
+    <FormContainer className={styles.formContainer}>
+      <h1 className={styles.formTitle}>Đăng nhập</h1>
+
+      <Form onSubmit={submitHandler}>
+        <Form.Group className={`my-2 ${styles.formGroup}`} controlId='email'>
+          <Form.Label className={styles.formLabel}>Email</Form.Label>
+          <Form.Control
+            className={styles.formControl}
+            type='email'
+            placeholder='Nhập email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group className={`my-2 ${styles.formGroup}`} controlId='password'>
+          <Form.Label className={styles.formLabel}>Mật khẩu</Form.Label>
+          <Form.Control
+            className={styles.formControl}
+            type='password'
+            placeholder='Nhập mật khẩu'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
+        <Button
+          disabled={isLoading}
+          type='submit'
+          variant='primary'
+          className={styles.submitButton}
+        >
+          Đăng nhập
+        </Button>
+
+        {isLoading && <Loader className={styles.loader} />}
+      </Form>
+
+      <Row className='py-3'>
+        <Col className={styles.registerLink}>
+          Người dùng mới?{' '}
+          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
+            Đăng ký
+          </Link>
+        </Col>
+      </Row>
+    </FormContainer>
   );
 };
 
-export default Login;
+export default LoginScreen;

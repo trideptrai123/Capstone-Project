@@ -1,27 +1,40 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './components/Login/Login';
-import Register from './components/register/Signup';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Container } from 'react-bootstrap';
+import { Outlet } from 'react-router-dom';
 import NavBar from './components/Navbar/Header';
-import Home from './components/Home/HomePage';
-import ProfilePage from './components/Profile/profilePage';
+import Footer from './components/Footer/Footer';
+import { logout } from './redux/authSlice';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const expirationTime = localStorage.getItem('expirationTime');
+    if (expirationTime) {
+      const currentTime = new Date().getTime();
+
+      if (currentTime > expirationTime) {
+        dispatch(logout());
+      }
+    }
+  }, [dispatch]);
+
   return (
-    <Router>
+    <>
+      <ToastContainer />
       <NavBar />
-      <div className='App'>
-        <Routes>
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/' element={<Home />} />
-          <Route path='/profile' element={<ProfilePage />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-        </Routes>
-      </div>
-    </Router>
+      <main className='py-3'>
+        <Container>
+          <Outlet />
+        </Container>
+      </main>
+      <Footer />
+    </>
   );
-}
+};
 
 export default App;
