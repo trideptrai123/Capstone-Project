@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import { logout } from "../../redux/authSlice";
 import { useLogoutMutation } from '../../redux/usersApiSlice';
+import { useGetUsersQuery } from "../../redux/usersApiSlice";
 
 
 
@@ -41,6 +42,16 @@ const NavBar = () => {
                   </Nav.Link>
                 </LinkContainer>
               )}
+      {userInfo && userInfo.isAdmin && (
+        <NavDropdown title='Admin' id='adminmenu'>
+        <LinkContainer to = '/admin/userList'>
+          <NavDropdown.Item> Thông tin của các  người dùng</NavDropdown.Item>
+        </LinkContainer>
+        <LinkContainer to = '/admin/newList'>
+          <NavDropdown.Item>List News</NavDropdown.Item>
+        </LinkContainer>
+        </NavDropdown>
+      )}        
     </nav>
   );
 };
