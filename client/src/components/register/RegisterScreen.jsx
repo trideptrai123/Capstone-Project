@@ -1,20 +1,19 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useRegisterMutation } from "../../redux/usersApiSlice";
 import { setCredentials } from '../../redux/authSlice';
-import FormContainer from "../loader/FormContainer"
+import FormContainer from "../loader/FormContainer";
 import Loader from '../loader/Loader';
 import { toast } from 'react-toastify';
 
-const RegisterScreen  = () => {
-  const [email,setEmail] = useState("");
+const RegisterScreen = () => {
+  const [email, setEmail] = useState("");
   const [name, setName] = useState('');
-  const [password,setPassword] = useState("");
+  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState('');
-  // const [userType, setUserType] = useState("Student university");
-
+  const [userType, setUserType] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,7 +25,6 @@ const RegisterScreen  = () => {
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const redirect = sp.get('redirect') || '/';
-
 
   useEffect(() => {
     if (userInfo) {
@@ -41,7 +39,7 @@ const RegisterScreen  = () => {
       toast.error('Passwords do not match');
     } else {
       try {
-        const res = await register({ name, email, password }).unwrap();
+        const res = await register({ name, email, password, userType }).unwrap();
         dispatch(setCredentials({ ...res }));
         navigate(redirect);
       } catch (err) {
@@ -61,7 +59,7 @@ const RegisterScreen  = () => {
             placeholder='Nhập tên'
             value={name}
             onChange={(e) => setName(e.target.value)}
-          ></Form.Control>
+          />
         </Form.Group>
 
         <Form.Group className='my-2' controlId='email'>
@@ -71,7 +69,7 @@ const RegisterScreen  = () => {
             placeholder='Nhập email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-          ></Form.Control>
+          />
         </Form.Group>
 
         <Form.Group className='my-2' controlId='password'>
@@ -81,8 +79,9 @@ const RegisterScreen  = () => {
             placeholder='Nhập mật khẩu'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-          ></Form.Control>
+          />
         </Form.Group>
+
         <Form.Group className='my-2' controlId='confirmPassword'>
           <Form.Label>Xác nhận lại mật khẩu</Form.Label>
           <Form.Control
@@ -90,7 +89,19 @@ const RegisterScreen  = () => {
             placeholder='Nhập lại mật khẩu'
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-          ></Form.Control>
+          />
+        </Form.Group>
+
+        <Form.Group className='my-2' controlId='userType'>
+          <Form.Label>Loại người dùng</Form.Label>
+          <Form.Control
+            as='select'
+            value={userType}
+            onChange={(e) => setUserType(e.target.value)}
+          >
+            <option value="Student university">Student university</option>
+            <option value="High school student">Student high school</option>
+          </Form.Control>
         </Form.Group>
 
         <Button disabled={isLoading} type='submit' variant='primary'>
