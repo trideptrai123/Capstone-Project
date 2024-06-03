@@ -28,12 +28,17 @@ const NavBar = () => {
     <nav className="navbar-container">
      
      {userInfo ? (
+              <div>
                 <NavDropdown title={userInfo.name} id='username'>
                   <LinkContainer to='/profile'>
                     <NavDropdown.Item>Thông tin người dùng</NavDropdown.Item>
                   </LinkContainer>
                   <NavDropdown.Item onClick={logoutHandler}>Đăng xuất</NavDropdown.Item>
                 </NavDropdown>
+                 <LinkContainer to="/blog">
+                 <Nav.Link>News</Nav.Link>
+               </LinkContainer>
+               </div>
               ) : (
                 <LinkContainer to='/login'>
                   <Nav.Link style={{ color: '#000' }}>
