@@ -10,8 +10,12 @@ import {
 } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import AdminRoute from './components/PrivateRoute/AdminRoute';
 import LoginScreen from './components/Login/Login';
 import RegisterScreen from './components/register/RegisterScreen';
+import UserEditScreen from './components/admin/UserEditScreen';
+import UserListScreen from './components/admin/UserListScreen';
+import NewListScreen from './components/admin/NewListScreen';
 import Home from './components/Home/HomePage';
 import ProfilePage from './components/Profile/profilePage';
 import { Provider } from 'react-redux';
@@ -28,11 +32,12 @@ const router = createBrowserRouter(
       <Route path='' element={<PrivateRoute />}>
         <Route path='/profile' element={<ProfilePage />} />
       </Route>
-      {/* Admin users
-      
+      {/* Admin users */}
+      <Route path='' element={<AdminRoute />}>
         <Route path='/admin/userlist' element={<UserListScreen />} />
         <Route path='/admin/user/:id/edit' element={<UserEditScreen />} />
-      </Route> */}
+        <Route path='/admin/newList' element={<NewListScreen />} />
+      </Route>
     </Route>
   )
 );

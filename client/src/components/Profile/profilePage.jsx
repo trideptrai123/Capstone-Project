@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Form, Button, Row, Col } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import {  Form, Button, Row, Col } from 'react-bootstrap';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import Message from '../loader/Message';
 import Loader from '../loader/Loader';
 import { useProfileMutation } from '../../redux/usersApiSlice';
 import { setCredentials } from '../../redux/authSlice';
@@ -13,6 +12,8 @@ const ProfilePage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [userType, setUserType] = useState(''); 
+
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -24,16 +25,17 @@ const ProfilePage = () => {
   useEffect(() => {
     setName(userInfo.name);
     setEmail(userInfo.email);
-  }, [userInfo.email, userInfo.name]);
+    setUserType(userInfo.userType);
+  }, [userInfo.email, userInfo.name, userInfo.userType]);
 
   const dispatch = useDispatch();
   const submitHandler = async (e) => {
     e.preventDefault();
   
-    // Kiểm tra xem mật khẩu và xác nhận mật khẩu đã được điền vào hay không
+    
     if (!password || !confirmPassword) {
       toast.error('Please enter both password and confirm password');
-      return; // Dừng hàm submitHandler nếu mật khẩu hoặc xác nhận mật khẩu chưa được điền vào
+      return; 
     }
   
     if (password !== confirmPassword) {
@@ -41,12 +43,10 @@ const ProfilePage = () => {
     } else {
       try {
         const res = await updateProfile({
-          // NOTE: here we don't need the _id in the request payload as this is
-          // not used in our controller.
-          // _id: userInfo._id,
           name,
           email,
           password,
+          userType,
         }).unwrap();
         dispatch(setCredentials({ ...res }));
         toast.success('Profile updated successfully');
@@ -55,12 +55,6 @@ const ProfilePage = () => {
       }
     }
   };
-
-
-
-
-  
-
   return (
     <Row>
     <Col md={3}>
@@ -85,6 +79,19 @@ const ProfilePage = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
+        </Form.Group>
+
+
+        <Form.Group className='my-2' controlId='userType'>
+           <Form.Label>Loại người dùng</Form.Label>
+           <Form.Control
+             as='select'
+             value={userType}
+             onChange={(e) => setUserType(e.target.value)}
+           >
+            <option value='Student university'>Student university</option>
+            <option value='High school student'>High school student </option>
+           </Form.Control>
         </Form.Group>
 
         <Form.Group className='my-2' controlId='password'>
