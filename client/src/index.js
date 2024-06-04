@@ -23,6 +23,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './utils/store';
 import Blog from './components/blog/Blog';
 
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
