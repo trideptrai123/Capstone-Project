@@ -28,7 +28,9 @@ const NavBar = () => {
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container">
         <LinkContainer to="/">
-          <a className="navbar-brand" href="/">Ranking School</a>
+          <a className="navbar-brand" href="/">
+            Ranking School
+          </a>
         </LinkContainer>
         <button
           className="navbar-toggler"
@@ -46,22 +48,30 @@ const NavBar = () => {
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
               <LinkContainer to="/">
-                <a className="nav-link" href="/">Trang chủ</a>
+                <a className="nav-link" href="/">
+                  Trang chủ
+                </a>
               </LinkContainer>
             </li>
             <li className="nav-item">
               <LinkContainer to="/about">
-                <a className="nav-link" href="/">Giới thiệu</a>
+                <a className="nav-link" href="/">
+                  Giới thiệu
+                </a>
               </LinkContainer>
             </li>
             <li className="nav-item">
               <LinkContainer to="/contact">
-                <a className="nav-link" href="/">Liên hệ</a>
+                <a className="nav-link" href="/">
+                  Liên hệ
+                </a>
               </LinkContainer>
             </li>
             <li className="nav-item">
               <LinkContainer to="/blog">
-                <a className="nav-link" href="/">Blog</a>
+                <a className="nav-link" href="/">
+                  Blog
+                </a>
               </LinkContainer>
             </li>
           </ul>
@@ -69,22 +79,38 @@ const NavBar = () => {
             {userInfo ? (
               <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
                 <LinkContainer to="/profile">
-                  <a className="dropdown-item" href="/">Thông tin người dùng</a>
+                  <a className="dropdown-item" href="/">
+                    Thông tin người dùng
+                  </a>
                 </LinkContainer>
-                <NavDropdown.Item onClick={logoutHandler}>Đăng xuất</NavDropdown.Item>
+                <NavDropdown.Item onClick={logoutHandler}>
+                  Đăng xuất
+                </NavDropdown.Item>
               </NavDropdown>
             ) : (
               <LinkContainer to="/login">
-                <Button variant="outline-light" className="mr-2">Đăng nhập</Button>
+                <Button variant="outline-light" className="mr-2">
+                  Đăng nhập
+                </Button>
               </LinkContainer>
             )}
             {userInfo?.isAdmin && (
               <NavDropdown title="Admin" id="adminmenu">
                 <LinkContainer to="/admin/userList">
-                  <a className="dropdown-item" href="/">Thông tin của các người dùng</a>
+                  <a className="dropdown-item" href="/">
+                    Thông tin của các người dùng
+                  </a>
                 </LinkContainer>
                 <LinkContainer to="/admin/newList">
-                  <a className="dropdown-item" href="/">List News</a>
+                  <a className="dropdown-item" href="/">
+                    List News
+                  </a>
+                </LinkContainer>
+                <LinkContainer to="/admin/university">
+                  <NavDropdown.Item>Create University</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/admin/universitylist">
+                  <NavDropdown.Item>University list</NavDropdown.Item>
                 </LinkContainer>
               </NavDropdown>
             )}
