@@ -59,7 +59,7 @@ const ProfilePage = () => {
     <Row>
     <Col md={3}>
       <h2>Thông tin người dùng</h2>
-
+      {loadingUpdateProfile && <Loader />}
       <Form onSubmit={submitHandler}>
         <Form.Group className='my-2' controlId='name'>
           <Form.Label>Tên</Form.Label>
@@ -117,7 +117,6 @@ const ProfilePage = () => {
         <Button type='submit' variant='primary'>
           Cập nhật
         </Button>
-        {loadingUpdateProfile && <Loader />}
       </Form>
     </Col>
     </Row>
