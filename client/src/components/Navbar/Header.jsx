@@ -50,6 +50,12 @@ const NavBar = () => {
         <LinkContainer to = '/admin/newList'>
           <NavDropdown.Item>List News</NavDropdown.Item>
         </LinkContainer>
+        <LinkContainer to = '/admin/university'>
+          <NavDropdown.Item>Create University</NavDropdown.Item>
+        </LinkContainer>
+        <LinkContainer to = '/admin/universitylist'>
+          <NavDropdown.Item>University list</NavDropdown.Item>
+        </LinkContainer>
         </NavDropdown>
       )}        
     </nav>
