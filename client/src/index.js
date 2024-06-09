@@ -16,12 +16,14 @@ import RegisterScreen from './components/register/RegisterScreen';
 import UserEditScreen from './components/admin/UserEditScreen';
 import UserListScreen from './components/admin/UserListScreen';
 import NewListScreen from './components/admin/NewListScreen';
+import CreateUniversity from './components/admin/CreateUniversity';
+import UniversityListScreen from './components/admin/UniversityListScreen';
+import UniversityEditScreen from './components/admin/UniversityEditScreen';
 import Home from './components/Home/HomePage';
 import ProfilePage from './components/Profile/profilePage';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './utils/store';
-
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +37,15 @@ const router = createBrowserRouter(
       </Route>
       {/* Admin users */}
       <Route path='' element={<AdminRoute />}>
+        <Route
+          path='/admin/universitylist'
+          element={<UniversityListScreen />}
+        />
+        <Route path='/admin/university' element={<CreateUniversity />} />
+        <Route
+          path='/admin/universityEdit/:id/edit'
+          element={<UniversityEditScreen />}
+        />
         <Route path='/admin/userlist' element={<UserListScreen />} />
         <Route path='/admin/user/:id/edit' element={<UserEditScreen />} />
         <Route path='/admin/newList' element={<NewListScreen />} />

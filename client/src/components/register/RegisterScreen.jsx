@@ -98,7 +98,8 @@ const RegisterScreen = () => {
             as='select'
             value={userType}
             onChange={(e) => setUserType(e.target.value)}
-          >
+          > 
+            <option value="">Select sector</option>
             <option value="Student university">Student university</option>
             <option value="High school student">Student high school</option>
           </Form.Control>
