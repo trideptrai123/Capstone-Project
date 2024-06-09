@@ -24,6 +24,9 @@ import ProfilePage from './components/Profile/profilePage';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './utils/store';
+import Blog from './components/blog/Blog';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,6 +37,8 @@ const router = createBrowserRouter(
       {/* Registered users */}
       <Route path='' element={<PrivateRoute />}>
         <Route path='/profile' element={<ProfilePage />} />
+        <Route path='/blog' element={<Blog />} />
+
       </Route>
       {/* Admin users */}
       <Route path='' element={<AdminRoute />}>
