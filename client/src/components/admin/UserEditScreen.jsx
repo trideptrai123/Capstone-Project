@@ -15,6 +15,7 @@ const UserEditScreen = () => {
   const { id: userId } = useParams();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [userType, setUserType] = useState(''); 
   const [isAdmin, setIsAdmin] = useState(false);
 
   const {
@@ -31,7 +32,7 @@ const UserEditScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      await updateUser({ userId, name, email, isAdmin });
+      await updateUser({ userId, name, email, userType, isAdmin });
       toast.success('user updated successfully');
       refetch();
       navigate('/admin/userlist');
@@ -45,6 +46,7 @@ const UserEditScreen = () => {
       setName(user.name);
       setEmail(user.email);
       setIsAdmin(user.isAdmin);
+      setUserType(user.userType)
     }
   }, [user]);
 
@@ -83,6 +85,21 @@ const UserEditScreen = () => {
                 onChange={(e) => setEmail(e.target.value)}
               ></Form.Control>
             </Form.Group>
+
+
+            <Form.Group className='my-2' controlId='userType'>
+           <Form.Label>Loại người dùng</Form.Label>
+           <Form.Control
+             as='select'
+             value={userType}
+             onChange={(e) => setUserType(e.target.value)}
+           >
+            <option value='Student university'>Student university</option>
+            <option value='High school student'>High school student </option>
+           </Form.Control>
+        </Form.Group>
+
+
 
             <Form.Group className='my-2' controlId='isadmin'>
               <Form.Check
