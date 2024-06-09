@@ -1,32 +1,65 @@
-.navbar-container{
+/* Merged CSS from navbar.css and Header.css */
+
+.navbar {
+    background: linear-gradient(to right, #4facfe, #00f2fe); /* Gradient background */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Box shadow */
+    border-radius: 10px; /* Rounded corners */
+    padding: 0.5rem 1rem; 
+}
+.navbar .container {
+    max-width: 100%; /* Ensure full width */
     display: flex;
-    padding: 1rem 1.5rem;
-    justify-content: flex-end;
-    background-color: rgb(228, 228, 228);
-    align-items: center;
+    justify-content: space-between; /* Align items to the left and right */
+    align-items: center; /* Center items vertically */
 }
-.navbar-container > *{
-    margin: 0 1.25rem;
-    text-decoration: none;
-    font-weight: 600;
-    color:rgb(0, 99, 230);
+
+.navbar .navbar-brand {
+    font-size: 1.5rem; /* Adjust font size */
+    font-weight: bold;
+    color: #fff; /* White text color */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Text shadow */
 }
-.navbar-home{
-    color:rgb(163, 162, 162);
+
+.navbar-nav .nav-link {
+    font-size: 1rem; /* Adjust font size */
+    color: #fff; /* White text color */
+    transition: all 0.3s ease; /* Smooth transition */
 }
-.navbar-login {
-    color:rgb(163, 162, 162);
+
+.navbar-nav .nav-link:hover {
+    color: #f0f0f0; /* Lighter text color on hover */
 }
-.navbar-register{
-    color:rgb(255, 255, 255);
-    background-color: rgb(150, 150, 150);
-    padding:0.35rem;
-    border-radius: 6px;
+
+.navbar-toggler-icon {
+    background-color: #fff; /* White color for toggle icon */
 }
-.navbar-user{
-    color: rgb(0, 154, 165);
+
+.dropdown-menu {
+    background-color: #4facfe; /* Light blue background for dropdown */
 }
-.navbar-logout {
-    color:rgb(156, 156, 156);
-    padding:0.35rem;
+
+.dropdown-item {
+    color: #fff; /* White text color for dropdown items */
+}
+
+.dropdown-item:hover {
+    background-color: #00f2fe; /* Light blue background on hover */
+}
+
+.navbar-nav.ml-auto {
+    margin-left: auto; /* Ensure items are aligned to the right */
+}
+
+.button-outline-light {
+    margin-right: 0.5rem; /* Adjust margin */
+}
+
+/* Ensure dropdowns are properly aligned */
+.navbar-nav .dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
+.navbar-nav .nav-item {
+    margin-left: 0.5rem; /* Add some spacing between nav items */
 }
