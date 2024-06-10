@@ -15,6 +15,10 @@ const UniversityEditScreen = () => {
   const [name, setName] = useState('');
   const [city, setCity] = useState('');
   const [subjects, setSubjects] = useState([]);
+  const [nationalRanking, setNationalRanking] = useState('');
+  const [teachingStandards, setTeachingStandards] = useState('');
+  const [studentQuality, setStudentQuality] = useState('');
+  const [facilitiesStandards, setFacilitiesStandards] = useState('');
 
   const {
     data: university,
@@ -30,7 +34,16 @@ const UniversityEditScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const payload = { id: universityId, name, city, subjects };
+      const payload = {
+        id: universityId,
+        name,
+        city,
+        subjects,
+        nationalRanking: parseInt(nationalRanking),
+        teachingStandards: parseInt(teachingStandards),
+        studentQuality: parseInt(studentQuality),
+        facilitiesStandards: parseInt(facilitiesStandards),
+      };
       console.log('Submitting payload:', payload); // Debug payload
       await updateUniversity(payload).unwrap();
       toast.success('University updated successfully');
@@ -47,6 +60,10 @@ const UniversityEditScreen = () => {
       setName(university.name);
       setCity(university.city);
       setSubjects(university.subjects);
+      setNationalRanking(university.nationalRanking);
+      setTeachingStandards(university.teachingStandards);
+      setStudentQuality(university.studentQuality);
+      setFacilitiesStandards(university.facilitiesStandards);
     }
   }, [university]);
 
@@ -100,6 +117,46 @@ const UniversityEditScreen = () => {
                 placeholder='Enter city'
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group className='my-2' controlId='nationalRanking'>
+              <Form.Label>Xếp hạng quốc gia</Form.Label>
+              <Form.Control
+                type='number'
+                placeholder='Enter national ranking'
+                value={nationalRanking}
+                onChange={(e) => setNationalRanking(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group className='my-2' controlId='teachingStandards'>
+              <Form.Label>Tiêu chuẩn giảng dạy</Form.Label>
+              <Form.Control
+                type='number'
+                placeholder='Enter teaching standards'
+                value={teachingStandards}
+                onChange={(e) => setTeachingStandards(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group className='my-2' controlId='studentQuality'>
+              <Form.Label>Chất lượng sinh viên</Form.Label>
+              <Form.Control
+                type='number'
+                placeholder='Enter student quality'
+                value={studentQuality}
+                onChange={(e) => setStudentQuality(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group className='my-2' controlId='facilitiesStandards'>
+              <Form.Label>Tiêu chuẩn cơ sở vật chất</Form.Label>
+              <Form.Control
+                type='number'
+                placeholder='Enter facilities standards'
+                value={facilitiesStandards}
+                onChange={(e) => setFacilitiesStandards(e.target.value)}
               ></Form.Control>
             </Form.Group>
 

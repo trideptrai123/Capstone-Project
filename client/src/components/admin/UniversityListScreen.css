@@ -1,0 +1,41 @@
+.university-list-container {
+    margin: 20px;
+  }
+  
+  .university-table {
+    margin-top: 20px;
+  }
+  
+  .university-table th, .university-table td {
+    vertical-align: middle;
+  }
+  
+  .details-row {
+    background-color: #f9f9f9;
+  }
+  
+  .details-container {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #dee2e6;
+  }
+  
+  .subject-table th, .subject-table td {
+    vertical-align: middle;
+    padding: 8px;
+  }
+  
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .action-buttons > * {
+    margin-right: 10px;
+  }
+  
+  .action-buttons > *:last-child {
+    margin-right: 0;
+  }
+  
