@@ -61,6 +61,13 @@ const NavBar = () => {
               </LinkContainer>
             </li>
             <li className="nav-item">
+              <LinkContainer to="/ranking">
+                <a className="nav-link" href="/">
+                  Ranking
+                </a>
+              </LinkContainer>
+            </li>
+            <li className="nav-item">
               <LinkContainer to="/contact">
                 <a className="nav-link" href="/">
                   Liên hệ

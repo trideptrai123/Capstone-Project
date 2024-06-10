@@ -1,0 +1,28 @@
+.ranking-list-container {
+    margin: 20px;
+  }
+  
+  .sort-buttons {
+    margin-bottom: 20px;
+  }
+  
+  .sort-buttons button {
+    margin-right: 10px;
+  }
+  
+  .ranking-table th, .ranking-table td {
+    vertical-align: middle;
+    cursor: pointer;
+  }
+  th.selected-column {
+    font-weight: bold;
+    cursor: pointer; /* Đổi con trỏ chuột thành bàn tay khi di chuột vào cột */
+    background-color: #e60f0f; /* Màu nền khi cột được chọn */
+  }
+  
+  th.selected-column:hover {
+    background-color: #e60f0f; /* Giữ màu nền khi di chuột vào cột */
+  }
+  
+  
+  

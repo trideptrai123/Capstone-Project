@@ -6,6 +6,7 @@ import Message from '../loader/Message';
 import Loader from '../loader/Loader';
 import { useDeleteUniversityMutation, useGetUniversitiesQuery } from '../../redux/universityApiSlice';
 import { toast } from 'react-toastify';
+import './UniversityListScreen.css';
 
 const UniversityListScreen = () => {
   const { data: universities, refetch, isLoading, error } = useGetUniversitiesQuery();
@@ -28,20 +29,24 @@ const UniversityListScreen = () => {
   };
 
   return (
-    <>
+    <div className="university-list-container">
       <h1>Quản lý trường đại học</h1>
       {isLoading ? (
         <Loader />
       ) : error ? (
         <Message variant="danger">{error?.data?.message || error.error}</Message>
       ) : (
-        <Table striped bordered hover responsive className="table-sm">
+        <Table striped bordered hover responsive className="table-sm university-table">
           <thead>
             <tr>
               <th>ID</th>
               <th>TÊN</th>
               <th>THÀNH PHỐ</th>
-              <th></th>
+              <th>XẾP HẠNG TOÀN QUỐC</th>
+              <th>TIÊU CHUẨN DẠY HỌC</th>
+              <th>CHẤT LƯỢNG NGƯỜI HỌC</th>
+              <th>TIÊU CHUẨN CƠ SỞ VẬT CHẤT</th>
+              <th>ACTIONS</th>
             </tr>
           </thead>
           <tbody>
@@ -51,11 +56,15 @@ const UniversityListScreen = () => {
                   <td>{university._id}</td>
                   <td>{university.name}</td>
                   <td>{university.city}</td>
-                  <td>
-                    <Button variant="info" className="btn-sm" onClick={() => toggleRow(university._id)} style={{ marginRight: '10px' }}>
+                  <td>{university.nationalRanking}</td>
+                  <td>{university.teachingStandards}</td>
+                  <td>{university.studentQuality}</td>
+                  <td>{university.facilitiesStandards}</td>
+                  <td className="action-buttons">
+                    <Button variant="info" className="btn-sm" onClick={() => toggleRow(university._id)}>
                       Chi tiết
                     </Button>
-                    <LinkContainer to={`/admin/universityEdit/${university._id}/edit`} style={{ marginRight: '10px' }}>
+                    <LinkContainer to={`/admin/universityEdit/${university._id}/edit`}>
                       <Button variant="light" className="btn-sm">
                         <FaEdit />
                       </Button>
@@ -66,12 +75,12 @@ const UniversityListScreen = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td colSpan="4" className="p-0">
+                  <td colSpan="8" className="p-0 details-row">
                     <Collapse in={expandedRow === university._id}>
-                      <div className="p-2">
+                      <div className="details-container">
                         <h5>Subjects</h5>
                         {university.subjects && university.subjects.length > 0 ? (
-                          <Table bordered size="sm">
+                          <Table bordered size="sm" className="subject-table">
                             <thead>
                               <tr>
                                 <th>TÊN</th>
@@ -101,7 +110,7 @@ const UniversityListScreen = () => {
           </tbody>
         </Table>
       )}
-    </>
+    </div>
   );
 };
 
