@@ -51,9 +51,11 @@ const UniversityEditScreen = () => {
   }, [university]);
 
   const handleSubjectChange = (index, field, value) => {
-    const newSubjects = [...subjects];
-    newSubjects[index][field] = value;
-    setSubjects(newSubjects);
+    setSubjects((prevSubjects) => {
+      return prevSubjects.map((subject, i) =>
+        i === index ? { ...subject, [field]: value } : subject
+      );
+    });
   };
 
   const handleAddSubject = () => {
