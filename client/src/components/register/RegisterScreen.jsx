@@ -81,7 +81,7 @@ const RegisterScreen = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-
+        
         <Form.Group className='my-2' controlId='confirmPassword'>
           <Form.Label>Xác nhận lại mật khẩu</Form.Label>
           <Form.Control

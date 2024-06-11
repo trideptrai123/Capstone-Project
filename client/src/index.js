@@ -22,6 +22,7 @@ import UniversityEditScreen from './components/admin/UniversityEditScreen';
 import Home from './components/Home/HomePage';
 import ProfilePage from './components/Profile/profilePage';
 import RankingScreen from './components/Ranking/ranking';
+import UniversityInfo from './components/UniversityInfo/UniversityInfo';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './utils/store';
@@ -40,6 +41,7 @@ const router = createBrowserRouter(
         <Route path='/profile' element={<ProfilePage />} />
         <Route path='/blog' element={<Blog />} />
         <Route path='/ranking' element={<RankingScreen />} />
+        <Route path='/UniversityInfo/:id' element={<UniversityInfo />} />
       </Route>
       {/* Admin users */}
       <Route path='' element={<AdminRoute />}>

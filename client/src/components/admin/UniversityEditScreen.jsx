@@ -10,10 +10,16 @@ import {
   useUpdateUniversityMutation,
 } from '../../redux/universityApiSlice';
 
+
 const UniversityEditScreen = () => {
   const { id: universityId } = useParams();
   const [name, setName] = useState('');
   const [city, setCity] = useState('');
+  const [address, setAddress] = useState('');
+  const [establishedYear, setEstablishedYear] = useState('');
+  const [admissionCode, setAdmissionCode] = useState('');
+  const [description, setDescription] = useState('');
+  const [website, setWebsite] = useState('');
   const [subjects, setSubjects] = useState([]);
   const [nationalRanking, setNationalRanking] = useState('');
   const [teachingStandards, setTeachingStandards] = useState('');
@@ -38,6 +44,11 @@ const UniversityEditScreen = () => {
         id: universityId,
         name,
         city,
+        address,
+        establishedYear: parseInt(establishedYear),
+        admissionCode,
+        description,
+        website,
         subjects,
         nationalRanking: parseInt(nationalRanking),
         teachingStandards: parseInt(teachingStandards),
@@ -59,6 +70,11 @@ const UniversityEditScreen = () => {
     if (university) {
       setName(university.name);
       setCity(university.city);
+      setAddress(university.address);
+      setEstablishedYear(university.establishedYear);
+      setAdmissionCode(university.admissionCode);
+      setDescription(university.description);
+      setWebsite(university.website);
       setSubjects(university.subjects);
       setNationalRanking(university.nationalRanking);
       setTeachingStandards(university.teachingStandards);
@@ -66,7 +82,6 @@ const UniversityEditScreen = () => {
       setFacilitiesStandards(university.facilitiesStandards);
     }
   }, [university]);
-
   const handleSubjectChange = (index, field, value) => {
     setSubjects((prevSubjects) => {
       return prevSubjects.map((subject, i) =>
@@ -89,7 +104,7 @@ const UniversityEditScreen = () => {
       <Link to='/admin/universitylist' className='btn btn-light my-3'>
         Quay lại
       </Link>
-      <FormContainer>
+      <FormContainer className="university-edit-form-container">
         <h1>Cập nhật thông tin trường đại học</h1>
         {loadingUpdate && <Loader />}
         {isLoading ? (
@@ -99,7 +114,7 @@ const UniversityEditScreen = () => {
             {error?.data?.message || error.error}
           </Message>
         ) : (
-          <Form onSubmit={submitHandler}>
+          <Form onSubmit={submitHandler} className="university-edit-form">
             <Form.Group className='my-2' controlId='name'>
               <Form.Label>Tên trường</Form.Label>
               <Form.Control
@@ -119,6 +134,68 @@ const UniversityEditScreen = () => {
                 onChange={(e) => setCity(e.target.value)}
               ></Form.Control>
             </Form.Group>
+
+            <Form.Group className='my-2' controlId='address'>
+              <Form.Label>Địa chỉ</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Enter address'
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+
+            <Form.Group className='my-2' controlId='establishedYear'>
+              <Form.Label>Năm thành lập</Form.Label>
+              <Form.Control
+                type='number'
+                placeholder='Enter established year'
+                value={establishedYear}
+                onChange={(e) => setEstablishedYear(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+
+            <Form.Group className='my-2' controlId='admissionCode'>
+              <Form.Label>Mã tuyển sinh</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Enter admission code'
+                value={admissionCode}
+                onChange={(e) => setAdmissionCode(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+
+
+            <Form.Group className='my-2' controlId='description'>
+              <Form.Label>Mô tả</Form.Label>
+              <Form.Control
+                as='textarea'
+                placeholder='Enter description'
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+
+            <Form.Group className='my-2' controlId='website'>
+              <Form.Label>Website</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Enter website'
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+              ></Form.Control>
+              {website && (
+                <a href={website} target="_blank" rel="noopener noreferrer">Visit Website</a>
+              )}
+            </Form.Group>
+
+
+
+
 
             <Form.Group className='my-2' controlId='nationalRanking'>
               <Form.Label>Xếp hạng quốc gia</Form.Label>
