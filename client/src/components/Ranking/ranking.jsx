@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap'; // Import LinkContainer từ react-router-bootstrap
 import Message from '../loader/Message';
 import Loader from '../loader/Loader';
 import { useGetUniversitiesQuery } from '../../redux/universityApiSlice';
@@ -46,14 +47,17 @@ const RankingScreen = () => {
               <th className={selectedColumn === 'teachingStandards' ? 'selected-column' : ''} onClick={() => handleSortChange('teachingStandards')}>Teaching Standards</th>
               <th className={selectedColumn === 'studentQuality' ? 'selected-column' : ''} onClick={() => handleSortChange('studentQuality')}>Student Quality</th>
               <th className={selectedColumn === 'facilitiesStandards' ? 'selected-column' : ''} onClick={() => handleSortChange('facilitiesStandards')}>Facilities Standards</th>
-
             </tr>
           </thead>
           <tbody>
             {sortedUniversities.map((university, index) => (
               <tr key={university._id}>
                 <td>{index + 1}</td>
-                <td>{university.name}</td>
+                <td>
+                  <LinkContainer to={`/UniversityInfo/${university._id}`}>
+                    <a>{university.name}</a>
+                  </LinkContainer>
+                </td>
                 <td>{university.city}</td>
                 <td>{university.nationalRanking}</td>
                 <td>{university.teachingStandards}</td>

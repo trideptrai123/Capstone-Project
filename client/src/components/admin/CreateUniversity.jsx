@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { useCreateUniversityMutation } from '../../redux/universityApiSlice';
-import './CreateUniversity.css'; // Import the CSS file
+import './CreateUniversity.css'; 
 
 const CreateUniversity = () => {
   const [name, setName] = useState('');
   const [city, setCity] = useState('');
+  const [address, setAddress] = useState('');
+  const [establishedYear, setEstablishedYear] = useState('');
+  const [admissionCode, setAdmissionCode] = useState('');
+  const [description, setDescription] = useState('');
+  const [website, setWebsite] = useState('');
+  
   const [subjectName, setSubjectName] = useState('');
   const [sector, setSector] = useState('');
   const [entryPoints, setEntryPoints] = useState('');
@@ -34,8 +40,13 @@ const CreateUniversity = () => {
       await createUniversity({
         name,
         city,
+        address,
+        establishedYear: parseInt(establishedYear),
+        admissionCode,
+        description,
+        website,
         subjects,
-        nationalRanking : parseInt(nationalRanking),
+        nationalRanking: parseInt(nationalRanking),
         teachingStandards: parseInt(teachingStandards),
         studentQuality: parseInt(studentQuality),
         facilitiesStandards: parseInt(facilitiesStandards),
@@ -45,8 +56,13 @@ const CreateUniversity = () => {
         // Reset form fields to create a new university
         setName('');
         setCity('');
+        setAddress('');
+        setEstablishedYear('');
+        setAdmissionCode('');
+        setDescription('');
+        setWebsite('');
         setSubjects([]);
-        setNationalRanking('')
+        setNationalRanking('');
         setTeachingStandards('');
         setStudentQuality('');
         setFacilitiesStandards('');
@@ -70,6 +86,26 @@ const CreateUniversity = () => {
         <div className="form-group">
           <label>City:</label>
           <input type="text" value={city} onChange={(e) => setCity(e.target.value)} />
+        </div>
+        <div className="form-group">
+          <label>Address:</label>
+          <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
+        </div>
+        <div className="form-group">
+          <label>Established Year:</label>
+          <input type="number" value={establishedYear} onChange={(e) => setEstablishedYear(e.target.value)} />
+        </div>
+        <div className="form-group">
+          <label>Admission Code:</label>
+          <input type="text" value={admissionCode} onChange={(e) => setAdmissionCode(e.target.value)} />
+        </div>
+        <div className="form-group">
+          <label>Description:</label>
+          <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
+        </div>
+        <div className="form-group">
+          <label>Website:</label>
+          <input type="text" value={website} onChange={(e) => setWebsite(e.target.value)} />
         </div>
         <div className="form-group">
           <label>National Ranking:</label>
