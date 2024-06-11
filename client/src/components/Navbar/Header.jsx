@@ -68,7 +68,7 @@ const NavBar = () => {
               </LinkContainer>
             </li>
             <li className="nav-item">
-              <LinkContainer to="/contact">
+              <LinkContainer to="/contac">
                 <a className="nav-link" href="/">
                   Liên hệ
                 </a>

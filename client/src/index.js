@@ -26,8 +26,8 @@ import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './utils/store';
 import Blog from './components/blog/Blog';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,6 +39,7 @@ const router = createBrowserRouter(
       <Route path='' element={<PrivateRoute />}>
         <Route path='/profile' element={<ProfilePage />} />
         <Route path='/blog' element={<Blog />} />
+       
         <Route path='/ranking' element={<RankingScreen />} />
       </Route>
       {/* Admin users */}
