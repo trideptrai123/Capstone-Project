@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Table } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap'; // Import LinkContainer từ react-router-bootstrap
+import { Table, Button } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap'; 
 import Message from '../loader/Message';
 import Loader from '../loader/Loader';
 import { useGetUniversitiesQuery } from '../../redux/universityApiSlice';
+import { useGetUserProfileQuery, useLikeUniversityMutation } from '../../redux/usersApiSlice';
 import './RankingScreen.css';
+import { toast } from 'react-toastify';
 
 const RankingScreen = () => {
   const { data: universities, refetch, isLoading, error } = useGetUniversitiesQuery();
+  const { data: userProfile, refetch: refetchUserProfile } = useGetUserProfileQuery();
+  const [likeUniversity] = useLikeUniversityMutation();
   const [sortedUniversities, setSortedUniversities] = useState([]);
   const [sortCriteria, setSortCriteria] = useState('nationalRanking');
   const [selectedColumn, setSelectedColumn] = useState('nationalRanking');
@@ -26,6 +30,16 @@ const RankingScreen = () => {
   const handleSortChange = (criteria) => {
     setSortCriteria(criteria);
     setSelectedColumn(criteria);
+  };
+
+  const handleLike = async (universityId) => {
+    try {
+      await likeUniversity(universityId);
+      toast.success('Đã thêm trường đại học vào danh sách yêu thích');
+      refetchUserProfile();
+    } catch (error) {
+      console.error('Error liking university:', error);
+    }
   };
 
   return (
@@ -47,6 +61,7 @@ const RankingScreen = () => {
               <th className={selectedColumn === 'teachingStandards' ? 'selected-column' : ''} onClick={() => handleSortChange('teachingStandards')}>Teaching Standards</th>
               <th className={selectedColumn === 'studentQuality' ? 'selected-column' : ''} onClick={() => handleSortChange('studentQuality')}>Student Quality</th>
               <th className={selectedColumn === 'facilitiesStandards' ? 'selected-column' : ''} onClick={() => handleSortChange('facilitiesStandards')}>Facilities Standards</th>
+              <th>Like</th>
             </tr>
           </thead>
           <tbody>
@@ -63,6 +78,11 @@ const RankingScreen = () => {
                 <td>{university.teachingStandards}</td>
                 <td>{university.studentQuality}</td>
                 <td>{university.facilitiesStandards}</td>
+                <td>
+                  {!userProfile?.likedUniversities.includes(university._id) && (
+                    <Button variant="outline-primary" onClick={() => handleLike(university._id)}>Like</Button>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

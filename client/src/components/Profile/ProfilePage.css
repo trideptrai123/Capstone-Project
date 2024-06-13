@@ -1,0 +1,60 @@
+/* ProfilePage.css */
+
+.profile-page {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .profile-section {
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-section h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .profile-section form {
+    max-width: 100%;
+  }
+  
+  .profile-section .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .profile-section .form-label {
+    font-weight: bold;
+  }
+  
+  .liked-universities-section {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .liked-universities-section h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .liked-universities-section table {
+    width: 100%;
+  }
+  
+  .liked-universities-section th,
+  .liked-universities-section td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .profile-page {
+      flex-direction: column;
+    }
+  }
+  

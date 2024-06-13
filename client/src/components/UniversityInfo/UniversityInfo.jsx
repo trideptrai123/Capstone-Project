@@ -46,17 +46,17 @@ const UniversityInfoScreen = () => {
             <Table bordered size="sm" className="subject-table">
             <thead>
                 <tr>
-                    <th>TÊN</th>
-                    <th>SECTOR</th>
-                    <th>ENTRY POINTS</th>
+                  <th>TÊN</th>
+                  <th>SECTOR</th>
+                  <th>ENTRY POINTS</th>
                 </tr>
             </thead>
                  <tbody>
                     {university.subjects.map((subject, index) => (
                         <tr key={index}>
-                            <td>{subject.name}</td>
-                            <td>{subject.sector}</td>
-                             <td>{subject.entryPoints}</td>
+                          <td>{subject.name}</td>
+                          <td>{subject.sector}</td>
+                          <td>{subject.entryPoints}</td>
                          </tr>
                     ))}
                 </tbody>
