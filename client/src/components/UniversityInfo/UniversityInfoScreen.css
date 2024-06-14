@@ -1,44 +1,44 @@
 /* UniversityInfoScreen.css */
 
 .university-info-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .university-info-container h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  .university-info-container h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .university-info-container p {
-    margin-bottom: 5px;
-  }
-  
-  .university-info-container ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  
-  .university-info-container li {
-    margin-bottom: 15px;
-  }
-  
-  .university-info-container a {
-    text-decoration: none;
-    color: #007bff;
-  }
-  
-  .university-info-container a:hover {
-    text-decoration: underline;
-  }
-  
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.university-info-container h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.university-info-container h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.university-info-container p {
+  margin-bottom: 5px;
+}
+
+.university-info-container ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.university-info-container li {
+  margin-bottom: 15px;
+}
+
+.university-info-container a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.university-info-container a:hover {
+  text-decoration: underline;
+}
+
