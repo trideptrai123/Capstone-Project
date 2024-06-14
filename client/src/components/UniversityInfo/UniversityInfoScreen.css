@@ -1,44 +1,69 @@
-/* UniversityInfoScreen.css */
-
 .university-info-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .university-info-container h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  .university-info-container h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .university-info-container p {
-    margin-bottom: 5px;
-  }
-  
-  .university-info-container ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  
-  .university-info-container li {
-    margin-bottom: 15px;
-  }
-  
-  .university-info-container a {
-    text-decoration: none;
-    color: #007bff;
-  }
-  
-  .university-info-container a:hover {
-    text-decoration: underline;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+}
+
+.university-info-container h1, h2, h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.is-divider{
+  height: 3px;
+  display: block;
+  background-color: rgba(0, 0, 0, .1);
+  margin: 1em 0 1em;
+  width: 100%;
+  max-width: 100px;
+  background-color: rgb(255, 0, 0);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.university-info-container h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ff0000;
+  font-family: 'inherit', sans-serif !important;
+}
+
+.university-info-container h1:hover {
+  color: #b30000; /* Khi hover, màu chữ chuyển sang đỏ đậm hơn */
+  transition: color 0.3s ease;
+}
+
+.university-info-container p {
+  margin-bottom: 0.5rem;
+}
+
+.university-info-container h2 {
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 0.5rem;
+}
+
+.subject-table {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+}
+
+.subject-table th, .subject-table td {
+  padding: 0.5rem;
+}
+
+.university-info-container a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.university-info-container a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
