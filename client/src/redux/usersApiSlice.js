@@ -10,7 +10,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    
+
     register: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}`,
@@ -58,6 +58,27 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User'],
     }),
+    likeUniversity: builder.mutation({
+      query: (id) => ({
+        url: `${USERS_URL}/like/${id}`,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['User'],
+    }),
+    getUserProfile: builder.query({
+      query: () => ({
+        url: `${USERS_URL}/profile`,
+        method: 'GET',
+      }),
+      providesTags: ['User'],
+    }),
+    unlikeUniversity: builder.mutation({
+      query: (id) => ({
+        url: `${USERS_URL}/unlike/${id}`,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
@@ -70,4 +91,7 @@ export const {
   useDeleteUserMutation,
   useUpdateUserMutation,
   useGetUserDetailsQuery,
+  useLikeUniversityMutation,
+  useUnlikeUniversityMutation,
+  useGetUserProfileQuery,
 } = userApiSlice;
