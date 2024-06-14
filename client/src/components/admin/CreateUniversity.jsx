@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useCreateUniversityMutation } from "../../redux/universityApiSlice";
 import "./CreateUniversity.css";
-import { toast } from "react-toastify";
-import { Form, Button } from "react-bootstrap";
+
 const CreateUniversity = () => {
   const [name, setName] = useState("");
   const [city, setCity] = useState("");

@@ -49,7 +49,6 @@ const UniversityEditScreen = () => {
         admissionCode,
         description,
         website,
-
         subjects,
         nationalRanking: parseInt(nationalRanking),
         teachingStandards: parseInt(teachingStandards),
@@ -76,7 +75,6 @@ const UniversityEditScreen = () => {
       setAdmissionCode(university.admissionCode);
       setDescription(university.description);
       setWebsite(university.website);
-
       setSubjects(university.subjects);
       setNationalRanking(university.nationalRanking);
       setTeachingStandards(university.teachingStandards);
