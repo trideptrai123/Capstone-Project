@@ -1,0 +1,30 @@
+.chat-box::-webkit-scrollbar {
+    width: 5px; /* Width of the scrollbar */
+  }
+  
+  .chat-box::-webkit-scrollbar-track {
+    background:  #555; /* Background of the scrollbar track */
+    border-radius: 2px; /* Rounding the corners */
+  }
+  
+  .chat-box::-webkit-scrollbar-thumb {
+    background: #555; /* Color of the scrollbar thumb */
+    border-radius: 2px; /* Rounding the corners */
+  }
+  
+  .chat-box::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color when hovered */
+  }
+  .ant-popover-inner{
+    padding: 0 !important;
+  }
+  .text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* width: 200px; */
+  }
+  
+  .smooth{
+    scroll-behavior: smooth !important;
+  }

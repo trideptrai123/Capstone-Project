@@ -81,6 +81,13 @@ const NavBar = () => {
                 </a>
               </LinkContainer>
             </li>
+            <li className="nav-item">
+              <LinkContainer to="/chat">
+                <a className="nav-link" href="/">
+                  Phòng chat
+                </a>
+              </LinkContainer>
+            </li>
           </ul>
           <ul className="navbar-nav ml-auto">
             {userInfo ? (

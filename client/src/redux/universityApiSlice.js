@@ -4,9 +4,13 @@ import { UNIVERSITIES_URL } from "../utils/constnats"; // Đảm bảo bạn có
 export const universityApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUniversities: builder.query({
-      query: () => ({
-        url: UNIVERSITIES_URL,
-      }),
+      query: (params) => {
+        const queryString = new URLSearchParams(params).toString();
+        return {
+          url: `${UNIVERSITIES_URL}?${queryString}`,
+
+        }
+      },
       providesTags: ["University"],
       keepUnusedDataFor: 5,
     }),

@@ -1,36 +1,44 @@
-import React from "react"
-import { blog } from "./dummydata"
+import React from "react";
+import { blog } from "./dummydata";
+import { dateFormat3 } from "../../utils/helpers";
+import { useNavigate } from "react-router-dom";
 
-const BlogCard = () => {
+const BlogCard = ({ post }) => {
+  const navigate = useNavigate()
+  const {
+    headerImage,
+    _id,
+    title,
+    content,
+    category: { name: categoryName, updatedAt },
+  } = post;
   return (
     <>
-      {blog.map((val) => (
-        <div className='items shadow'>
-          <div className='img'>
-            <img src={val.cover} alt='' />
-          </div>
-          <div className='text'>
-            <div className='admin flexSB'>
-              <span>
-                <i className='fa fa-user'></i>
-                <label htmlFor=''>{val.type}</label>
-              </span>
-              <span>
-                <i className='fa fa-calendar-alt'></i>
-                <label htmlFor=''>{val.date}</label>
-              </span>
-              <span>
-                <i className='fa fa-comments'></i>
-                <label htmlFor=''>{val.com}</label>
-              </span>
+      <div onClick={() => navigate("/blog-detail/" + _id)} className="card">
+        <div className="card__header">
+          <img
+           className="image-blog card__image"
+            src={headerImage}
+            alt="card__image"
+            // className="card__image"
+            width="600"
+          />
+        </div>
+        <div className="card__body">
+          <span className="tag tag-blue">{categoryName}</span>
+          <h5 className="text-ellipsis">{title}</h5>
+        </div>
+        <div className="card__footer">
+          <div className="user">
+           
+            <div className="user__info">
+              <small>{dateFormat3(updatedAt)}</small>
             </div>
-            <h1>{val.title}</h1>
-            <p>{val.desc}</p>
           </div>
         </div>
-      ))}
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default BlogCard
+export default BlogCard;

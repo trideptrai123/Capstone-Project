@@ -1,6 +1,6 @@
 module.exports = {
-  purge: [],
-  darkMode: false,
+  purge: ['./src/components/Chat/**/*.{js,jsx,ts,tsx}'],
+  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
   },

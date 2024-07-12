@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import "./index.css"
 import reportWebVitals from './utils/reportWebVitals';
 import {
   createBrowserRouter,
@@ -27,6 +28,8 @@ import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './utils/store';
 import Blog from './components/blog/Blog';
+import BlogDetail from './components/blog/BlogDetail';
+import Chats from './components/Chat/Chats';
 
 
 
@@ -40,9 +43,12 @@ const router = createBrowserRouter(
       <Route path='' element={<PrivateRoute />}>
         <Route path='/profile' element={<ProfilePage />} />
         <Route path='/blog' element={<Blog />} />
+        <Route path='/blog-detail/:id' element={<BlogDetail />} />
        
         <Route path='/ranking' element={<RankingScreen />} />
         <Route path='/UniversityInfo/:id' element={<UniversityInfo />} />
+        <Route path='/chat' element={<Chats />} />
+
       </Route>
       {/* Admin users */}
       <Route path='' element={<AdminRoute />}>
