@@ -4,9 +4,12 @@ import { HttpError } from "../error/HttpError";
 export const LOCAL_STORAGE_KEY = {
   token: "token-uni-admin",
 };
-export const BASE_URL_DOWNLOAD = "http://localhost:7291/api";
+// export const BASE_URL_DOWNLOAD = "http://localhost:7291/api";
 export const API = axios.create({
   baseURL: "http://localhost:4000/",
+  // baseURL: "https://capstone-project-backend-q6xd.onrender.com/",
+
+  
   headers: {
     "Content-Type": "application/json",
   },
@@ -17,7 +20,7 @@ API.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem(LOCAL_STORAGE_KEY.token);
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `${token}`;
     }
     return config;
   },

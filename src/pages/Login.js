@@ -7,6 +7,7 @@ import ImageDark from "../assets/img/login-office-dark.jpeg";
 import ImageLight from "../assets/img/login-office.jpeg";
 import { handleErrorHttp } from "../error/HttpError";
 import useAuthStore from "../zustand/authStore";
+import { LOCAL_STORAGE_KEY } from "../api";
 
 function Login() {
   const { login, logOutAction,setIsLogin } = useAuthStore();
@@ -36,6 +37,8 @@ function Login() {
       else{
         history.push("/app/dashboard");
       }
+      localStorage.setItem(LOCAL_STORAGE_KEY.token,res.token)
+
       setIsLogin()
     } catch (error) {
       handleErrorHttp(error, "Sai email hoặc mật khẩu");
