@@ -1,73 +1,69 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { FaCheckCircle, FaQuoteLeft } from 'react-icons/fa';
-import './Home.css';  
-
-const Home = () => {
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import './Home.css';
+const FeatureCard = ({ title, description, icon }) => {
     return (
-        <div className="p-6">
-            <header className="header-background text-center text-white py-16">
+      <div  data-aos="fade-up" className="bg-white p-6 rounded-lg text-center  flex flex-col justify-start items-center">
+    <div className='p-1 border rounded-full'>
+    <div style={{
+        border:"4px solid white",
+     }} className='w-20 h-20 rounded-full bg-gray-100 p-3 flex justify-center items-center'>
+     <img  src={icon} alt={title} className="w-16 h-16" />
+     </div>
+    </div>
+        <h3 className="text-xl font-semibold mb-2 mt-3">{title}</h3>
+        <p className="text-gray-600 mb-4 text-sm">{description}</p>
+      </div>
+    );
+  };
+const Home = () => {
+    useEffect(() => {
+        AOS.init({ duration: 1000 });
+    }, []);
+    const features = [
+        {
+          title: "Xem bảng xếp hạng",
+          description: "Có thể xem bảng xếp hạng các trường đại học qua các năm",
+          icon: "/ranking5.svg",
+        },
+        {
+          title: "Blog",
+          description: "Xem những bài viết mới nhất và bình luận về nó",
+          icon: "/blog5.svg",
+        },
+        {
+          title: "Trò chuyện",
+          description: "Tham gia vào phòng chat và trao đổi cùng mọi người",
+          icon: "/chat5.svg",
+        },
+        {
+          title: "Danh sách yêu thích",
+          description: "Thêm các trường đại học vào danh sách yêu thích",
+          icon: "/like5.svg",
+        },
+        {
+          title: "Thông tin",
+          description: "Xem thông tin mới nhất về các trường đại học",
+          icon: "/info5.svg",
+        },
+      ];
+      
+    return (
+        <div className="p-6 bg-white">
+            <header className="header-background text-center text-white py-16" data-aos="fade-down">
                 <h1 className="text-5xl font-bold mb-4">Welcome to Our Application</h1>
                 <p className="text-xl mb-6">Discover the latest features and updates</p>
                 <Link to="/register" className="inline-block bg-white text-purple-500 hover:bg-gray-200 font-bold py-3 px-6 rounded-full transition-colors duration-300 get-started-btn">
                     Get Started
                 </Link>
             </header>
-            
-            <section className="py-12 features">
-                <h2 className="text-3xl font-bold text-center mb-8">Features</h2>
-                <div className="flex flex-wrap justify-around">
-                    <div className="bg-gray-100 p-6 rounded-lg text-center mb-6 md:w-1/3 mx-2 shadow-md feature">
-                        <FaCheckCircle className="text-4xl text-purple-500 mb-4 feature-icon"/>
-                        <h3 className="text-2xl font-semibold mb-2">Feature 1</h3>
-                        <p className="text-gray-700">Description of feature 1. It provides amazing benefits to the users.</p>
-                    </div>
-                    <div className="bg-gray-100 p-6 rounded-lg text-center mb-6 md:w-1/3 mx-2 shadow-md feature">
-                        <FaCheckCircle className="text-4xl text-purple-500 mb-4 feature-icon"/>
-                        <h3 className="text-2xl font-semibold mb-2">Feature 2</h3>
-                        <p className="text-gray-700">Description of feature 2. It makes everything easier and faster.</p>
-                    </div>
-                    <div className="bg-gray-100 p-6 rounded-lg text-center mb-6 md:w-1/3 mx-2 shadow-md feature">
-                        <FaCheckCircle className="text-4xl text-purple-500 mb-4 feature-icon"/>
-                        <h3 className="text-2xl font-semibold mb-2">Feature 3</h3>
-                        <p className="text-gray-700">Description of feature 3. It's highly efficient and user-friendly.</p>
-                    </div>
-                </div>
-            </section>
-            
-            <section className="py-12 bg-gray-50 testimonials">
-                <h2 className="text-3xl font-bold text-center mb-8">What Our Users Say</h2>
-                <div className="flex flex-col items-center">
-                    <div className="bg-white p-6 rounded-lg text-center mb-6 w-2/3 shadow-lg testimonial">
-                        <FaQuoteLeft className="text-3xl text-purple-500 mb-4 quote-icon"/>
-                        <p className="text-xl italic mb-4">"This application has completely changed my workflow for the better!"</p>
-                        <p className="text-gray-600">- User 1</p>
-                    </div>
-                    <div className="bg-white p-6 rounded-lg text-center mb-6 w-2/3 shadow-lg testimonial">
-                        <FaQuoteLeft className="text-3xl text-purple-500 mb-4 quote-icon"/>
-                        <p className="text-xl italic mb-4">"An indispensable tool for my daily tasks."</p>
-                        <p className="text-gray-600">- User 2</p>
-                    </div>
-                    <div className="bg-white p-6 rounded-lg text-center mb-6 w-2/3 shadow-lg testimonial">
-                        <FaQuoteLeft className="text-3xl text-purple-500 mb-4 quote-icon"/>
-                        <p className="text-xl italic mb-4">"Fantastic features and great support!"</p>
-                        <p className="text-gray-600">- User 3</p>
-                    </div>
-                </div>
-            </section>
-            
-            <section className="py-12 contact">
-                <h2 className="text-3xl font-bold text-center mb-8">Contact Us</h2>
-                <p className="text-center mb-8 text-gray-700">Have questions? We'd love to hear from you!</p>
-                <form className="flex flex-col items-center">
-                    <input type="text" className="mb-4 p-3 w-full max-w-md border border-gray-300 rounded-lg" placeholder="Your Name" />
-                    <input type="email" className="mb-4 p-3 w-full max-w-md border border-gray-300 rounded-lg" placeholder="Your Email" />
-                    <textarea className="mb-4 p-3 w-full max-w-md border border-gray-300 rounded-lg" placeholder="Your Message"></textarea>
-                    <button type="submit" className="bg-purple-500 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300 hover:bg-purple-700">
-                        Send Message
-                    </button>
-                </form>
-            </section>
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-6 pt-10  ">
+          {features.map((feature, index) => (
+            <FeatureCard key={index} title={feature.title} description={feature.description} icon={feature.icon} />
+          ))} </div>
         </div>
     );
 };

@@ -10,7 +10,9 @@ import { setCredentials } from '../../redux/authSlice';
 import { toast } from 'react-toastify';
 import styles from './LoginScreen.module.css';
 import 'tailwindcss/tailwind.css'; 
-
+export const LOCALSTORAGE_KEY = {
+  token:"uni-usser-token"
+}
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -36,6 +38,8 @@ const LoginScreen = () => {
     e.preventDefault();
     try {
       const res = await login({ email, password }).unwrap();
+      const token = res.token;
+      localStorage.setItem(LOCALSTORAGE_KEY.token,token)
       dispatch(setCredentials({ ...res }));
       navigate(redirect);
     } catch (err) {

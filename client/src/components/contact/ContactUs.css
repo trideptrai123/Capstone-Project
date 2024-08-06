@@ -1,0 +1,110 @@
+.contact-us {
+    font-family: Arial, sans-serif;
+  }
+  
+  .contact-header {
+    background-image: url("https://thumbs.dreamstime.com/b/contact-us-concept-email-internet-technology-36100118.jpg");
+    background-size: cover;
+    color: white;
+    text-align: center;
+    padding: 50px 0;
+    height: 400px;
+  }
+  
+  .contact-info {
+    padding: 50px;
+    text-align: center;
+  }
+  
+  .contact-info h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .contact-info p {
+    font-size: 18px;
+    margin-bottom: 40px;
+  }
+  
+  .contact-details {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .contact-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin: 20px;
+    width: calc(50% - 40px);
+    text-align: left;
+  }
+  
+  .contact-card h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .contact-card p {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .contact-card button {
+    background-color: #ff7f50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .contact-card button:hover {
+    background-color: #ff6347;
+  }
+  
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+    background-color: #f9f9f9;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .form-group textarea {
+    height: 150px;
+  }
+  
+  .contact-form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .contact-form button:hover {
+    background-color: #45a049;
+  }
+  

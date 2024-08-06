@@ -30,6 +30,9 @@ import store from './utils/store';
 import Blog from './components/blog/Blog';
 import BlogDetail from './components/blog/BlogDetail';
 import Chats from './components/Chat/Chats';
+import ContactUs from './components/contact/Contact';
+import ChangePasswordScreen from './components/register/ChangePassword';
+import IntroductionPage from './components/intro/IntroPage';
 
 
 
@@ -48,6 +51,9 @@ const router = createBrowserRouter(
         <Route path='/ranking' element={<RankingScreen />} />
         <Route path='/UniversityInfo/:id' element={<UniversityInfo />} />
         <Route path='/chat' element={<Chats />} />
+        <Route path='/contact' element={<ContactUs />} />
+        <Route path='/change-pass' element={<ChangePasswordScreen />} />
+        <Route path='/intro' element={<IntroductionPage />} />
 
       </Route>
       {/* Admin users */}

@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { LOCALSTORAGE_KEY } from '../components/Login/Login';
 
 // Tạo createAsyncThunk để lấy thông tin người dùng
 export const fetchUserProfile = createAsyncThunk(
@@ -9,6 +10,7 @@ export const fetchUserProfile = createAsyncThunk(
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          "Authorization":localStorage.getItem(LOCALSTORAGE_KEY.token)
         },
       });
 

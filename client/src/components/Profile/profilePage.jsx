@@ -24,6 +24,7 @@ import {
 } from "../../redux/usersApiSlice";
 import { StarFilled, HeartOutlined, HeartFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { LOCALSTORAGE_KEY } from "../Login/Login";
 
 // import { authApi } from "../api/authApi";
 // import { dateFormat2, uploadImageToFirebase } from "../utils/helper";
@@ -73,6 +74,8 @@ const Profile = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "Authorization":localStorage.getItem(LOCALSTORAGE_KEY.token)
+
         },
         body: JSON.stringify({
           ...dataPost,
@@ -96,6 +99,10 @@ const Profile = () => {
     try {
       const res = await fetch("/api/users/profile", {
         method: "GET",
+        headers:{
+          "Authorization":localStorage.getItem(LOCALSTORAGE_KEY.token)
+        }
+        
       });
       const user = await res.json();
       setDataPost({

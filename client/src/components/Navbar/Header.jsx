@@ -8,6 +8,7 @@ import { useLogoutMutation } from "../../redux/usersApiSlice";
 import { useGetUsersQuery } from "../../redux/usersApiSlice";
 import "./navbar.css"; // Import your custom CSS file
 import { Avatar } from "antd";
+import { LOCALSTORAGE_KEY } from "../Login/Login";
 
 const NavBar = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -18,6 +19,7 @@ const NavBar = () => {
   const logoutHandler = async () => {
     try {
       await logoutApiCall().unwrap();
+      localStorage.removeItem(LOCALSTORAGE_KEY.token)
       dispatch(logout());
       navigate("/login");
     } catch (err) {
@@ -55,7 +57,7 @@ const NavBar = () => {
               </LinkContainer>
             </li>
             <li className="nav-item">
-              <LinkContainer to="/about">
+              <LinkContainer to="/intro">
                 <a className="nav-link" href="/">
                   Giới thiệu
                 </a>
@@ -64,12 +66,12 @@ const NavBar = () => {
             <li className="nav-item">
               <LinkContainer to="/ranking">
                 <a className="nav-link" href="/">
-                  Ranking
+                  Bảng xếp hạng
                 </a>
               </LinkContainer>
             </li>
             <li className="nav-item">
-              <LinkContainer to="/contac">
+              <LinkContainer to="/contact">
                 <a className="nav-link" href="/">
                   Liên hệ
                 </a>
@@ -99,6 +101,12 @@ const NavBar = () => {
                 <LinkContainer to="/profile">
                   <a className="dropdown-item" href="/">
                     Thông tin người dùng
+                  </a>
+                </LinkContainer>
+                
+                <LinkContainer to="/change-pass">
+                  <a className="dropdown-item" href="/">
+                   Đổi mật khẩu
                   </a>
                 </LinkContainer>
                 <NavDropdown.Item onClick={logoutHandler}>

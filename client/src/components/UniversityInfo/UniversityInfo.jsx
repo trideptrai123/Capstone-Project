@@ -42,11 +42,9 @@ const UniversityDetails = ({ universityId }) => {
         <div className="info-column">
           <h2>THÔNG TIN CHUNG</h2>
           <ul>
-            <li><strong>Tên tiếng Anh:</strong> {university.englishName}</li>
-            <li><strong>Địa điểm:</strong> {university.address}</li>
-            <li><strong>Vùng kinh tế:</strong> {university.economicZone}</li>
+           
             <li><strong>Mã tuyển sinh:</strong> {university.admissionCode}</li>
-            <li><strong>Loại trường:</strong> {university.schoolType}</li>
+            <li><strong>Địa điểm:</strong> {university.address}</li>
           </ul>
         </div>
         <div className="info-column" style={{
@@ -56,8 +54,6 @@ const UniversityDetails = ({ universityId }) => {
             <li><strong>Năm thành lập:</strong> {university.establishedYear}</li>
             <li><strong>Tỉnh/thành phố:</strong> {university.city}</li>
             <li><strong>Website:</strong> <a href={university.website} target="_blank" rel="noopener noreferrer">{university.website}</a></li>
-            <li><strong>Loại hình:</strong> {university.schoolType}</li>
-            <li><strong>Khối ngành:</strong> {university.field}</li>
           </ul>
         </div>
       </div>
