@@ -1,4 +1,4 @@
-export const BASE_URL = '';
+export const BASE_URL =  "https://capstone-project-backend-q6xd.onrender.com/";
 export const USERS_URL = '/api/users';
 export const UNIVERSITIES_URL = '/api/universities';
 export const POST_URL = '/api/posts';

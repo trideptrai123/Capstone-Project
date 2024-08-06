@@ -25,6 +25,7 @@ import {
 import { StarFilled, HeartOutlined, HeartFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { LOCALSTORAGE_KEY } from "../Login/Login";
+import { BASE_URL } from "../../utils/constnats";
 
 // import { authApi } from "../api/authApi";
 // import { dateFormat2, uploadImageToFirebase } from "../utils/helper";
@@ -70,7 +71,7 @@ const Profile = () => {
 
   const onSave = async () => {
     try {
-      const response = await fetch("/api/users/profile/" + user?._id, {
+      const response = await fetch(BASE_URL + "api/users/profile/" + user?._id, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +98,7 @@ const Profile = () => {
 
   const getProfile = async () => {
     try {
-      const res = await fetch("/api/users/profile", {
+      const res = await fetch(BASE_URL + "api/users/profile", {
         method: "GET",
         headers:{
           "Authorization":localStorage.getItem(LOCALSTORAGE_KEY.token)

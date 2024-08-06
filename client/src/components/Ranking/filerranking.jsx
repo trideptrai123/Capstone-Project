@@ -2,6 +2,7 @@ import React, { useEffect, useState, useTransition } from "react";
 import { Card, Select, Input, Row, Col, Button } from "antd";
 import { StarFilled } from "@ant-design/icons";
 import { useSelector } from "react-redux";
+import { BASE_URL } from "../../utils/constnats";
 
 const { Option } = Select;
 
@@ -34,7 +35,7 @@ const FilterRanking = ({ filter, setFilter }) => {
 
   const fetchMajors = async () => {
     try {
-      const response = await fetch("api/major/list/name"); // Replace with your API endpoint
+      const response = await fetch(BASE_URL + "api/major/list/name"); // Replace with your API endpoint
       const data = await response.json();
       setMajors(data);
     } catch (error) {

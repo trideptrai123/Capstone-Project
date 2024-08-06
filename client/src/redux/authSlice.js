@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { LOCALSTORAGE_KEY } from '../components/Login/Login';
+import { BASE_URL } from '../utils/constnats';
 
 // Tạo createAsyncThunk để lấy thông tin người dùng
 export const fetchUserProfile = createAsyncThunk(
   'auth/fetchUserProfile',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/users/profile', {
+      const response = await fetch(BASE_URL + 'api/users/profile', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -4,6 +4,7 @@ import { Button } from "antd";
 import { Input } from "antd";
 import { toast } from "react-toastify";
 import { LOCALSTORAGE_KEY } from "../Login/Login";
+import { BASE_URL } from "../../utils/constnats";
 
 const ChangePasswordScreen = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -32,7 +33,7 @@ const ChangePasswordScreen = () => {
       setErrors(newErrors);
     } else {
       try {
-        const response = await fetch('/api/users/change-pass', {
+        const response = await fetch(BASE_URL + 'api/users/change-pass', {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',

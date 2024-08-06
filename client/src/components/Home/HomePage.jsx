@@ -54,10 +54,10 @@ const Home = () => {
     return (
         <div className="p-6 bg-white">
             <header className="header-background text-center text-white py-16" data-aos="fade-down">
-                <h1 className="text-5xl font-bold mb-4">Welcome to Our Application</h1>
-                <p className="text-xl mb-6">Discover the latest features and updates</p>
+                <h1 className="text-5xl font-bold mb-4">Chào mừng đến với chúng tôi</h1>
+                <p className="text-xl mb-6">Khám phá các tính năng và cập nhật mới nhất</p>
                 <Link to="/register" className="inline-block bg-white text-purple-500 hover:bg-gray-200 font-bold py-3 px-6 rounded-full transition-colors duration-300 get-started-btn">
-                    Get Started
+                    Bắt đầu
                 </Link>
             </header>
             <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-6 pt-10  ">

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './UniversityDetails.css';
 import { useParams } from 'react-router-dom';
+import { BASE_URL } from '../../utils/constnats';
 
 const UniversityDetails = ({ universityId }) => {
   const {id} = useParams();
@@ -9,7 +10,7 @@ const UniversityDetails = ({ universityId }) => {
   useEffect(() => {
     const fetchUniversity = async () => {
       try {
-        const response = await fetch(`/api/universities/${id}`);
+        const response = await fetch(BASE_URL + `api/universities/${id}`);
         const data = await response.json();
         setUniversity(data);
       } catch (error) {
