@@ -109,9 +109,11 @@ const UserTable = ({ resultsPerPage, filter }) => {
     }
   };
 
+  console.log(currentItem)
   //ADD/EDIT
   const handleSave = async () => {
     if (currentItem) {
+      console.log(currentItem)
       if (!dataPost?.name?.trim()) {
         message.error("Vui lòng nhập tên");
         return;
@@ -120,7 +122,7 @@ const UserTable = ({ resultsPerPage, filter }) => {
         message.error("Vui lòng nhập email");
         return;
       }
-      if (!dataPost?.userType) {
+      if (!dataPost?.userType && currentItem.role == "user") {
         message.error("Vui lòng nhập kiểu người dùng");
         return;
       }
@@ -346,7 +348,7 @@ const UserTable = ({ resultsPerPage, filter }) => {
                   ))}
                 </Select>
                 </Label>
-                {currentItem && (
+                {currentItem && currentItem.role == "user" && (
                   <>
                     <FormTitle>Kiểu người dùng</FormTitle>
                     <Label>

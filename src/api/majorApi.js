@@ -15,4 +15,8 @@ export const majorApi = {
   getDetailMajor: (id) => {
     return API.get("/api/major/" + id, {});
   },
+  deleteMajor: (id) => {
+    return API.delete("/api/major/" + id, {});
+  },
+  
 };

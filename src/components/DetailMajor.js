@@ -41,6 +41,7 @@ const MajorDetail = () => {
           message.success("Đã xóa môn học");
           history.push("/app/list-major");
         } catch (error) {
+          console.log(error)
           message.error("Lỗi khi xóa môn học");
         }
       },

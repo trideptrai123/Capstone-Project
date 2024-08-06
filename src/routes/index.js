@@ -15,6 +15,7 @@ import MyRequests from "../pages/request/MyRequest";
 import AddUniversity from "../pages/university/AddUniversity";
 import ListUniversities from "../pages/university/ListUnivercity";
 import UniversityDetail from "../pages/university/DetailUniverCity";
+import ChangePasswordScreen from "../pages/change-pass";
 
 // use lazy for better code splitting, a.k.a. load faster
 const Dashboard = lazy(() => import("../pages/Dashboard"));
@@ -31,6 +32,10 @@ const routes = [
   {
     path: "/dashboard", // the url
     component: Dashboard,
+  },
+  {
+    path: "/change-pass", // the url
+    component: ChangePasswordScreen,
   },
   {
     path: "/all-posts",

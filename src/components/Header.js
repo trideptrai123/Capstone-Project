@@ -21,6 +21,7 @@ import {
 import response from "../utils/demo/profileData";
 import { logout } from "../utils/helper";
 import useAuthStore from "../zustand/authStore";
+import { LOCAL_STORAGE_KEY } from "../api";
 
 function Header() {
   const { user, getInfoUser,logOutAction:handleLogoutStore } = useAuthStore();
@@ -40,6 +41,7 @@ function Header() {
 const handleLogout = () => {
   logout(false);
   handleLogoutStore()
+  localStorage.removeItem(LOCAL_STORAGE_KEY.token)
   history.push("/login")
 }
   return (
@@ -140,6 +142,14 @@ const handleLogout = () => {
                 <span>Trang cá nhân</span>
               </DropdownItem>
            
+             
+              <DropdownItem onClick={() => history.push("/app/change-pass")}>
+                <OutlineLogoutIcon
+                  className="w-4 h-4 mr-3"
+                  aria-hidden="true"
+                />
+                <span>Đổi mật khẩu</span>
+              </DropdownItem>
               <DropdownItem onClick={() => handleLogout()}>
                 <OutlineLogoutIcon
                   className="w-4 h-4 mr-3"

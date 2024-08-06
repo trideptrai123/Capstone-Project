@@ -53,7 +53,7 @@ const CreateEditRequest = () => {
         universityId: user?.universityId,
         year,
       });
-      setMajors(majorsResponse.data);
+      setMajors(majorsResponse?.data?.filter(i => i.history?.length > 0));
     } catch (error) {
       console.error("Error fetching majors:", error);
     }

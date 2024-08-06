@@ -37,7 +37,7 @@ function Login() {
       else{
         history.push("/app/dashboard");
       }
-      localStorage.setItem(LOCAL_STORAGE_KEY.token,res.token)
+      console.log(res)
 
       setIsLogin()
     } catch (error) {
@@ -66,7 +66,7 @@ function Login() {
           <main className="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
             <div className="w-full">
               <h1 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
-                Login
+                Đăng nhập
               </h1>
               <Label>
                 <span>Email</span>
@@ -79,7 +79,7 @@ function Login() {
               </Label>
 
               <Label className="mt-4">
-                <span>Password</span>
+                <span>Mật khẩu</span>
                 <Input
                   className="mt-1"
                   type="password"
@@ -89,7 +89,7 @@ function Login() {
               </Label>
 
               <Button onClick={() => handeLogin()} className="mt-4">
-                Log in
+                Đăng nhập
               </Button>
             </div>
           </main>

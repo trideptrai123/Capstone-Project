@@ -67,17 +67,17 @@ const DashboardAdmin = () => {
   }, []);
 
   const fetchData = async () => {
-    try {
-      const res = await univerApi.getStats(
-        user.universityId,
-        startYear,
-        endYear,
-        majorId
-      );
-      setData(res.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    // try {
+    //   const res = await univerApi.getStats(
+    //     user.universityId,
+    //     startYear,
+    //     endYear,
+    //     majorId
+    //   );
+    //   setData(res.data);
+    // } catch (error) {
+    //   console.error("Error fetching data:", error);
+    // }
   };
 
   useEffect(() => {

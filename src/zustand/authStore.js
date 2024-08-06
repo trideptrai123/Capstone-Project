@@ -48,6 +48,7 @@ const useAuthStore = create(
             email,
             password,
           });
+          localStorage.setItem(LOCAL_STORAGE_KEY.token,res?.data.token)
 
 
           await useAuthStore.getState().getInfoUser();
