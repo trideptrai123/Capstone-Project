@@ -24,3 +24,4 @@ export async function uploadImageToFirebase(file) {
       return null;
     }
   }
+  

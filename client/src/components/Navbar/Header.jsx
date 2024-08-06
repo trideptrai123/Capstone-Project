@@ -7,6 +7,7 @@ import { logout } from "../../redux/authSlice";
 import { useLogoutMutation } from "../../redux/usersApiSlice";
 import { useGetUsersQuery } from "../../redux/usersApiSlice";
 import "./navbar.css"; // Import your custom CSS file
+import { Avatar } from "antd";
 
 const NavBar = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -91,7 +92,10 @@ const NavBar = () => {
           </ul>
           <ul className="navbar-nav ml-auto">
             {userInfo ? (
-              <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+              <NavDropdown
+                title={<span>{userInfo.name}</span>}
+                id="basic-nav-dropdown"
+              >
                 <LinkContainer to="/profile">
                   <a className="dropdown-item" href="/">
                     Thông tin người dùng
@@ -107,26 +111,6 @@ const NavBar = () => {
                   Đăng nhập
                 </Button>
               </LinkContainer>
-            )}
-            {userInfo?.isAdmin && (
-              <NavDropdown title="Admin" id="adminmenu">
-                <LinkContainer to="/admin/userList">
-                  <a className="dropdown-item" href="/">
-                    Thông tin của các người dùng
-                  </a>
-                </LinkContainer>
-                <LinkContainer to="/admin/newList">
-                  <a className="dropdown-item" href="/">
-                    List News
-                  </a>
-                </LinkContainer>
-                <LinkContainer to="/admin/university">
-                  <NavDropdown.Item>Create University</NavDropdown.Item>
-                </LinkContainer>
-                <LinkContainer to="/admin/universitylist">
-                  <NavDropdown.Item>University list</NavDropdown.Item>
-                </LinkContainer>
-              </NavDropdown>
             )}
           </ul>
         </div>

@@ -7,7 +7,7 @@ export const universityApiSlice = apiSlice.injectEndpoints({
       query: (params) => {
         const queryString = new URLSearchParams(params).toString();
         return {
-          url: `${UNIVERSITIES_URL}?${queryString}`,
+          url: `${UNIVERSITIES_URL}/ranking/list?${queryString}`,
 
         }
       },

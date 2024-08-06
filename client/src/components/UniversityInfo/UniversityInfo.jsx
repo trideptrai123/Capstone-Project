@@ -1,113 +1,73 @@
-import React, { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Table } from "react-bootstrap";
-import Loader from "../loader/Loader";
-import Message from "../loader/Message";
-import { useGetUniversityDetailsQuery } from "../../redux/universityApiSlice";
-import "./UniversityInfoScreen.css";
+import React, { useEffect, useState } from 'react';
+import './UniversityDetails.css';
+import { useParams } from 'react-router-dom';
 
-const UniversityInfoScreen = () => {
-  const { id: universityId } = useParams();
-
-  const {
-    data: university,
-    isLoading,
-    error,
-  } = useGetUniversityDetailsQuery(universityId);
+const UniversityDetails = ({ universityId }) => {
+  const {id} = useParams();
+  const [university,setUniversity] = useState()
 
   useEffect(() => {
-    if (!isLoading && !error && !university) {
-      // Xử lý khi không có dữ liệu trường
-    }
-  }, [isLoading, error, university]);
+    const fetchUniversity = async () => {
+      try {
+        const response = await fetch(`/api/universities/${id}`);
+        const data = await response.json();
+        setUniversity(data);
+      } catch (error) {
+        console.error("Error fetching university details:", error);
+      }
+    };
 
-  if (isLoading) {
-    return <Loader />;
-  }
+    fetchUniversity();
+  }, [id]);
 
-  if (error) {
-    return (
-      <Message variant="danger">{error?.data?.message || error.error}</Message>
-    );
-  }
+  if (!university) return <div>Loading...</div>;
 
   return (
-    <>
-      <Link to="/ranking" className="btn btn-light my-3">
-        Quay lại
-      </Link>
-      <div className="university-info-container">
-        <h1>THÔNG TIN TRƯỜNG ĐẠI HỌC</h1>
-        <div class="is-divider divider clearfix"> </div>
-        {university && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", textTransform: "uppercase" }}>
-              {university.name}
-            </h2>
-
-            <p style={{ textTransform: "uppercase", fontWeight: "bold" }}>
-              {"Thành phố : "}{" "}
-              <span style={{ fontWeight: "normal", textTransform: "none" }}>
-                {university.city}
-              </span>
-            </p>
-
-            <p style={{ textTransform: "uppercase", fontWeight: "bold" }}>
-              {"Địa chỉ :"}{" "}
-              <span style={{ fontWeight: "normal", textTransform: "none" }}>
-                {university.address}
-              </span>
-            </p>
-
-            <p style={{ textTransform: "uppercase", fontWeight: "bold" }}>
-              {"Năm thành lập :"}{" "}
-              <span style={{ fontWeight: "normal", textTransform: "none" }}>
-                {university.establishedYear}
-              </span>
-            </p>
-
-            <p style={{ textTransform: "uppercase", fontWeight: "bold" }}>
-              {"Mã tuyển sinh :"}{" "}
-              <span style={{ fontWeight: "normal", textTransform: "none" }}>
-                {university.admissionCode}
-              </span>
-            </p>
-            <p style={{ textTransform: "uppercase", fontWeight: "bold" }}>
-              {"Mô tả:"}{" "}
-              <span style={{ fontWeight: "normal", textTransform: "none" }}>
-                {university.description}
-              </span>
-            </p>
-            <p style={{ textTransform: "uppercase", fontWeight: "bold" }}>
-              {"Website :"}
-              <span style={{ fontWeight: "normal", textTransform: "none" }}>
-                <a href={university.website}>{university.website}</a>
-              </span>
-            </p>
-            <h3>Ngành học</h3>
-            <Table bordered size="sm" className="subject-table">
-              <thead>
-                <tr>
-                  <th>TÊN</th>
-                  <th>SECTOR</th>
-                  <th>ENTRY POINTS</th>
-                </tr>
-              </thead>
-              <tbody>
-                {university.subjects.map((subject, index) => (
-                  <tr key={index}>
-                    <td>{subject.name}</td>
-                    <td>{subject.sector}</td>
-                    <td>{subject.entryPoints}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </div>
-        )}
+    <div className="container">
+      <div className="header">
+        <h1>{university.name}</h1>
+        <span className="underline"></span>
       </div>
-    </>
+
+      <div className="logo-section">
+        <img style={{
+          width:150,
+          height:150,
+          borderRadius:75,
+          objectFit:"cover"
+        }} src={university.logo} alt="Logo của trường" />
+      </div>
+
+      <div className="info-section">
+        <div className="info-column">
+          <h2>THÔNG TIN CHUNG</h2>
+          <ul>
+            <li><strong>Tên tiếng Anh:</strong> {university.englishName}</li>
+            <li><strong>Địa điểm:</strong> {university.address}</li>
+            <li><strong>Vùng kinh tế:</strong> {university.economicZone}</li>
+            <li><strong>Mã tuyển sinh:</strong> {university.admissionCode}</li>
+            <li><strong>Loại trường:</strong> {university.schoolType}</li>
+          </ul>
+        </div>
+        <div className="info-column" style={{
+          marginTop:45
+        }}>
+          <ul>
+            <li><strong>Năm thành lập:</strong> {university.establishedYear}</li>
+            <li><strong>Tỉnh/thành phố:</strong> {university.city}</li>
+            <li><strong>Website:</strong> <a href={university.website} target="_blank" rel="noopener noreferrer">{university.website}</a></li>
+            <li><strong>Loại hình:</strong> {university.schoolType}</li>
+            <li><strong>Khối ngành:</strong> {university.field}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="description-section">
+        <h2>GIỚI THIỆU CHUNG</h2>
+        <p>{university.description}</p>
+      </div>
+    </div>
   );
 };
 
-export default UniversityInfoScreen;
+export default UniversityDetails;
