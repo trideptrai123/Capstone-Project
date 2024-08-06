@@ -27,6 +27,7 @@ import {
   Button,
   Select,
 } from "@windmill/react-ui";
+
 import { FormTitle } from "../pages/AddProduct";
 import { authApi } from "../api/authApi";
 import PageTitle from "./Typography/PageTitle";
@@ -34,6 +35,7 @@ import useAuthStore from "../zustand/authStore";
 import Password from "antd/es/input/Password";
 import { name } from "faker/lib/locales/az";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { univerApi } from "../api/univerApi";
 export const listTypeUser = {
   "Student university": "Sinh viên đại học",
   "High school student": "Học sinh trung học",
@@ -45,13 +47,14 @@ const UserTable = ({ resultsPerPage, filter }) => {
   const [reget, setReget] = useState(1);
   const [openModal, setOpenModal] = useState(false);
   const { user } = useAuthStore();
-  console.log(user);
+  const { data: listUni } = useFetchData(univerApi.getAllUniver);
   const [response, setResponse] = useState([]);
   const [dataPost, setDataPost] = useState({
     name: "",
     email: "",
     userType: "",
     password: "",
+    universityId:""
   });
   const [currentItem, setCurrentItem] = useState(null);
 
@@ -69,6 +72,7 @@ const UserTable = ({ resultsPerPage, filter }) => {
         name: currentItem?.name,
         email: currentItem?.email,
         userType: currentItem?.userType,
+        universityId:currentItem?.universityId
       });
     }
   }, [currentItem]);
@@ -86,6 +90,7 @@ const UserTable = ({ resultsPerPage, filter }) => {
       name: "",
       userType: "",
       email: "",
+      universityId:""
     });
   };
   useEffect(() => {
@@ -127,6 +132,7 @@ const UserTable = ({ resultsPerPage, filter }) => {
               name: dataPost.name,
               email: dataPost.email,
               userType: dataPost.userType,
+              universityId:dataPost.universityId
             },
             currentItem?._id
           )
@@ -135,6 +141,7 @@ const UserTable = ({ resultsPerPage, filter }) => {
             email: dataPost.email,
             password: dataPost.password,
             role: "staff",
+            universityId:dataPost.universityId
           });
       message.success("Lưu thành công");
       setCurrentItem(null);
@@ -325,6 +332,20 @@ const UserTable = ({ resultsPerPage, filter }) => {
                     </Label>
                   </>
                 )}
+                 <FormTitle>Trường học</FormTitle>
+                <Label>
+                <Select
+                  onChange={onChangeDataPost("universityId")}
+                  value={dataPost.universityId}
+                >
+                  <option disabled value={""}>
+                    {"Chọn Trường học"}
+                  </option>
+                  {listUni?.map((item) => (
+                    <option value={item._id}>{item.name}</option>
+                  ))}
+                </Select>
+                </Label>
                 {currentItem && (
                   <>
                     <FormTitle>Kiểu người dùng</FormTitle>

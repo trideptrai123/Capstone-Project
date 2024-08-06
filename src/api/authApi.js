@@ -7,6 +7,9 @@ export const authApi = {
   getInfoUser: (data) => {
     return API.get("/api/users/profile");
   },
+  updateProfile: (id,data) => {
+    return API.put("/api/users/profile/"+id,data);
+  },
   upadteinfoAdmin: (data) => {
     return API.put("/api/User", data);
   },

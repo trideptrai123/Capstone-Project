@@ -24,11 +24,18 @@ function Login() {
   };
   const handeLogin = async () => {
     try {
-      await login({
+      const res= await login({
         email: data.userName,
         password: data.password,
       });
-      history.push("/app/customers");
+      if(res?.role =="teacher"){
+        history.push("/app/list-major");
+
+
+      }
+      else{
+        history.push("/app/dashboard");
+      }
       setIsLogin()
     } catch (error) {
       handleErrorHttp(error, "Sai email hoặc mật khẩu");
@@ -42,13 +49,14 @@ function Login() {
             <img
               aria-hidden="true"
               className="object-cover w-full h-full dark:hidden"
-              src={ImageLight}
+              src={"/univer.jpg"}
               alt="Office"
             />
             <img
               aria-hidden="true"
               className="hidden object-cover w-full h-full dark:block"
-              src={ImageDark}
+              src={"/univer.jpg"}
+
               alt="Office"
             />
           </div>
@@ -80,14 +88,6 @@ function Login() {
               <Button onClick={() => handeLogin()} className="mt-4">
                 Log in
               </Button>
-              <p className="mt-4">
-                <Link
-                  className="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
-                  to="/forgot-password"
-                >
-                  Forgot your password?
-                </Link>
-              </p>
             </div>
           </main>
         </div>

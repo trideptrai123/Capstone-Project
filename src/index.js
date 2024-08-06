@@ -6,7 +6,7 @@ import { SidebarProvider } from "./context/SidebarContext";
 import ThemedSuspense from "./components/ThemedSuspense";
 import { Windmill } from "@windmill/react-ui";
 import windmillTheme from "./windmillTheme";
-
+import "./index.css"
 ReactDOM.render(
   <SidebarProvider>
     <Suspense fallback={<ThemedSuspense />}>

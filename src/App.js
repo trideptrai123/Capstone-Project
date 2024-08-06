@@ -13,31 +13,61 @@ const Login = lazy(() => import("./pages/Login"));
 const CreateAccount = lazy(() => import("./pages/CreateAccount"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 
-function App() {
+function PrivateRoute({ component: Component, ...rest }) {
+  const { isLogin } = useAuthStore();
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        isLogin ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/login" />
+        )
+      }
+    />
+  );
+}
 
-  const {getInfoUser,isLogin} = useAuthStore()
-  const getUser = async() => {
-    try {
-      await getInfoUser()
-     } catch (error) {
-      console.log(error)
-     }
-  }
+function PublicRoute({ component: Component, restricted, ...rest }) {
+  const { isLogin,user :{role}  } = useAuthStore();
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        isLogin && restricted ? (
+          <Redirect to={`${role == "teacher" ? "app/list-major" :"/app"}`} />
+        ) : (
+          <Component {...props} />
+        )
+      }
+    />
+  );
+}
+
+function App() {
+  const { getInfoUser } = useAuthStore();
+  
   useEffect(() => {
- getUser()
-  },[])
+    const getUser = async () => {
+      try {
+        await getInfoUser();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUser();
+  }, []);
+
   return (
     <>
       <Router>
         <AccessibleNavigationAnnouncer />
         <Switch>
-       <Route path="/login" component={Login}  />
-          <Route path="/create-account" component={CreateAccount} />
-          <Route path="/forgot-password" component={ForgotPassword} />
-
-          {/* Place new routes over this */}
-          <Route path="/app" component={Layout} />
-          {/* If you have an index page, you can remothis Redirect */}
+          <PublicRoute restricted={true} path="/login" component={Login} />
+          <PublicRoute restricted={true} path="/create-account" component={CreateAccount} />
+          <PublicRoute restricted={true} path="/forgot-password" component={ForgotPassword} />
+          <PrivateRoute path="/app" component={Layout} />
           <Redirect exact from="/" to="/login" />
         </Switch>
       </Router>

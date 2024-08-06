@@ -14,3 +14,47 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 100px;
+  background-color: gray;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Position the tooltip above the text */
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 13px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.ant-modal .ant-btn-primary {
+  background-color: rgb(35, 94, 188); /* Green background */
+  border-color: blue;     /* Green border */
+  color: white;              /* White text */
+}
+
+.ant-modal .ant-btn-primary:hover {
+  background-color: #45a049; /* Darker green on hover */
+  border-color: #45a049;
+}
+
+.ant-modal .ant-btn-primary:focus {
+  background-color: #45a049; /* Darker green on focus */
+  border-color: #45a049;
+}

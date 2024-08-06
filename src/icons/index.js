@@ -37,8 +37,30 @@ import { ReactComponent as StarIcon } from "./star.svg";
 import { ReactComponent as AddIcon } from "./add.svg";
 import { ReactComponent as PublishIcon } from "./publish.svg";
 import { ReactComponent as StoreIcon } from "./store.svg";
+import { ReactComponent as TeacherIcon } from "./teacher.svg";
+import { ReactComponent as PostIcon } from "./post.svg";
+
+import { ReactComponent as RequestIcon } from "./request.svg";
+import { ReactComponent as BookIcon } from "./book.svg";
+import { ReactComponent as SchoolIcon } from "./school.svg";
+import { ReactComponent as Teacher4 } from "./teacher4.svg";
+import { ReactComponent as Post4 } from "./post4.svg";
+import { ReactComponent as Rate4 } from "./rate4.svg";
+import { ReactComponent as School4 } from "./school4.svg";
+import { ReactComponent as Number4 } from "./number4.svg";
+
+
+
+
+
+
 
 export {
+  Teacher4,
+  Post4,
+  Rate4,
+  School4,
+  Number4,
   GroupIcon,
   UserIcon,
   AddIcon,
@@ -78,4 +100,9 @@ export {
   OutlinePersonIcon,
   OutlineCogIcon,
   OutlineLogoutIcon,
+  TeacherIcon,
+  RequestIcon,
+  BookIcon,
+  PostIcon,
+  SchoolIcon
 };

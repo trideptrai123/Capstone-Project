@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import PageTitle from "../components/Typography/PageTitle";
-import { FormTitle } from "./AddProduct";
 import {
   Card,
   CardBody,
@@ -15,28 +14,29 @@ import { authApi } from "../api/authApi";
 import { message } from "antd";
 import { handleErrorHttp } from "../error/HttpError";
 import { dateFormat2, uploadImageToFirebase } from "../utils/helper";
-import { Avatar } from "@windmill/react-ui";
 
 const Profile = () => {
-  const fileRef = useRef()
+  const fileRef = useRef();
   const [dataPost, setDataPost] = useState({
-    CreatedBy: "",
-    CreatedDate: "2024-06-21T11:17:04.698Z",
-    ModifiedBy: "",
-    ModifiedDate: "2024-06-21T11:17:04.698Z",
-    UserID: 0,
-    FirstName: "",
-    LastName: "",
-    Email: "",
-    Phone: "",
-    ImageBanner: "",
-    ImageAvatar: "",
-    Address: "",
-    Gender: 0,
-    Birthday: "",
-    Description: "",
-    UserName: "a",
+    name: "",
+    email: "",
+    avatar: "",
+    address: "",
+    gender: "",
+    dateOfBirth: "",
+    description: "",
   });
+
+  const { user, getInfoUser } = useAuthStore();
+
+  const changeFile = async (e) => {
+    const url = await uploadImageToFirebase(e.target.files[0]);
+    setDataPost({
+      ...dataPost,
+      avatar: url,
+    });
+  };
+
   const onChangeDataPost = (key) => (e) => {
     const value = e.target.value;
     setDataPost({
@@ -45,37 +45,25 @@ const Profile = () => {
     });
   };
 
-  const { user, getInfoUser } = useAuthStore();
-const changeFile = async(e) => {
-  const url = await uploadImageToFirebase(e.target.files[0]);
-  setDataPost({
-    ...dataPost,
-    ImageAvatar:url
-  })
-}
   useEffect(() => {
     if (user) {
       setDataPost({
-        ...dataPost,
-        FirstName: user.FirstName,
-        LastName: user.LastName,
-        Email: user.Email,
-        Phone: user.Phone,
-        Address: user.Address,
-        Gender: user.Gender,
-        Birthday: dateFormat2(user.Birthday),
-        ImageAvatar: user.ImageAvatar,
-        UserID: user.UserID,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+        address: user.address,
+        gender: user.gender,
+        dateOfBirth: dateFormat2(user.dateOfBirth),
+        description: user.description,
       });
     }
   }, [user]);
 
-  // SAVE
-  const onSave = async (id) => {
+  const onSave = async () => {
     try {
-      await authApi.updateUser({
+      await authApi.updateProfile(user._id,{
         ...dataPost,
-        Birthday:new Date(dataPost.Birthday)
+        dateOfBirth: new Date(dataPost.dateOfBirth),
       });
       message.success("Đã lưu");
       getInfoUser();
@@ -83,118 +71,106 @@ const changeFile = async(e) => {
       handleErrorHttp(error);
     }
   };
+
   return (
     <div>
       <PageTitle>Thông tin cá nhân</PageTitle>
       <div className="grid grid-cols-3">
-      <div className="w-full mt-8 grid gap-4 grid-col md:grid-cols-1 col-span-2 ">
-        <Card className="row-span-1 md:col-span-1">
-          <CardBody>
-            <FormTitle>Họ và tên đệm</FormTitle>
-            <Label>
-              <Input
-                value={dataPost.FirstName}
-                onChange={onChangeDataPost("FirstName")}
-                className="mb-4"
-                placeholder="Họ và tên đệm"
-              />
-            </Label>
+        <div className="w-full mt-8 grid gap-4 grid-col md:grid-cols-1 col-span-2">
+          <Card className="row-span-1 md:col-span-1">
+            <CardBody>
+              <Label>
+                <p className="inline-block mb-2">Tên</p>
+                <Input
+                  value={dataPost.name}
+                  onChange={onChangeDataPost("name")}
+                  className="mb-4"
+                  placeholder="Tên"
+                />
+              </Label>
 
-            <FormTitle>Tên</FormTitle>
-            <Label>
-              <Input
-                value={dataPost.LastName}
-                onChange={onChangeDataPost("LastName")}
-                className="mb-4"
-                placeholder="Tên"
-              />
-            </Label>
+              <Label>
+                <span className="inline-block mb-2">Email</span>
+                <Input
+                  value={dataPost.email}
+                  disabled
+                  className="mb-4"
+                  placeholder="Email"
+                />
+              </Label>
 
-            <FormTitle>Email</FormTitle>
-            <Label>
-              <Input
-                value={dataPost.Email}
-                onChange={onChangeDataPost("Email")}
-                className="mb-4"
-                placeholder="Email"
-              />
-            </Label>
+              <Label>
+                <span className="inline-block mb-2">Ngày sinh</span>
+                <Input
+                  type="date"
+                  value={dataPost.dateOfBirth}
+                  onChange={onChangeDataPost("dateOfBirth")}
+                  className="mb-4"
+                  placeholder="Ngày sinh"
+                />
+              </Label>
 
-            <FormTitle>Ngày sinh</FormTitle>
-            <Label>
-              <Input
-                type="date"
-                value={dataPost.Birthday}
-                onChange={onChangeDataPost("Birthday")}
-                className="mb-4"
-                placeholder="Ngày sinh"
-              />
-            </Label>
-            <FormTitle>Địa chỉ</FormTitle>
-            <Label>
-              <Input
-                value={dataPost.Address}
-                onChange={onChangeDataPost("Address")}
-                className="mb-4"
-                placeholder="Địa chỉ"
-              />
-            </Label>
-            <FormTitle>Số điện thoại</FormTitle>
-            <Label>
-              <Input
-                value={dataPost.Phone}
-                onChange={onChangeDataPost("Phone")}
-                className="mb-4"
-                placeholder="Số điên thoại"
-              />
-            </Label>
-            <FormTitle>Giới tính</FormTitle>
+              <Label>
+                <span className="inline-block mb-2">Địa chỉ</span>
+                <Input
+                  value={dataPost.address}
+                  onChange={onChangeDataPost("address")}
+                  className="mb-4"
+                  placeholder="Địa chỉ"
+                />
+              </Label>
 
-            <Label>
-              <Select
-                onChange={onChangeDataPost("Gender")}
-                value={dataPost.Gender}
-              >
-                <option value={0}>Nam</option>
-                <option value={1}>Nữ</option>
-              </Select>
-            </Label>
-            <Button
-              className="mt-5 mb-5"
-              onClick={() => onSave(true)}
-              size="large"
-            >
-              Lưu
-            </Button>
-          </CardBody>
-        </Card>
-      </div>
-      <div className="col-span-1 flex justify-center">
-      <div>
-      <img
-      style={{
-        borderRadius:50,
-        width:100,
-        height:100,
-        objectFit:"cover",
-        marginTop:40
-      }}
-          className=""
-          src={dataPost.ImageAvatar || "/avt.png"}
-          alt="user icon"
-        />
-          <label htmlFor="imgadd">
-          <Button
-          onClick={() => fileRef.current.click()}
-              className="mt-5 mb-5"
-              size="small"
-            >
-              + Thêm ảnh
-            </Button>
-          </label>
+              <Label>
+                <span className="inline-block mb-2">Giới tính</span>
+                <Select
+                  onChange={onChangeDataPost("gender")}
+                  value={dataPost.gender}
+                  className="mb-4"
+                >
+                  <option value="">Chọn giới tính</option>
+                  <option value="Nam">Nam</option>
+                  <option value="Nữ">Nữ</option>
+                </Select>
+              </Label>
+
+              <Label>
+                <span className="inline-block mb-2">Giới thiệu bản thân</span>
+                <Textarea
+                  value={dataPost.description}
+                  onChange={onChangeDataPost("description")}
+                  className="mb-4"
+                  placeholder="Giới thiệu bản thân"
+                  rows={10}
+                />
+              </Label>
+
+              <Button className="mt-5 mb-5" onClick={onSave} size="large">
+                Lưu
+              </Button>
+            </CardBody>
+          </Card>
+        </div>
+        <div className="col-span-1 flex justify-center">
+          <div>
+            <img
+              style={{
+                borderRadius: 50,
+                width: 100,
+                height: 100,
+                objectFit: "cover",
+                marginTop: 40,
+              }}
+              src={dataPost.avatar || "/avt.png"}
+              alt="user icon"
+            />
+            <label htmlFor="imgadd">
+              <Button onClick={() => fileRef.current.click()} className="mt-5 mb-5" size="small">
+                + Thêm ảnh
+              </Button>
+            </label>
             <input ref={fileRef} id="imgadd" onChange={changeFile} type="file" className="hidden" />
-      </div>
-      </div>
+          </div>
+        </div>
       </div>
     </div>
   );

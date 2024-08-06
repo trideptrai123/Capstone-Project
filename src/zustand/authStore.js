@@ -49,7 +49,9 @@ const useAuthStore = create(
             password,
           });
 
+
           await useAuthStore.getState().getInfoUser();
+          return res?.data
 
         } catch (error) {
           set({ isLogin:false });
@@ -63,7 +65,7 @@ const useAuthStore = create(
       getInfoUser: async () => {
         try {
           const res = await authApi.getInfoUser();
-          if (res.data.role !== "admin" && res.data.role !== "staff") {
+          if (res.data.role !== "admin" && res.data.role !== "staff" && res.data.role !== "teacher") {
             throw new Error("Sai email hoặc mật khẩu");
           }
 

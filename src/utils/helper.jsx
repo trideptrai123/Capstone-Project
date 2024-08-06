@@ -113,29 +113,24 @@ export const dateFormat2 = (date) =>  date ? moment(date).format("YYYY-MM-DD"):"
 
 
 
-export function buildTree(data) {
-  let map = {},
-    node,
-    roots = [],
-    i;
+export const RequestStatus = {
+  Pending: "pending", // chờ phê duyệt
+  Accepted: "accept", // đã duyệt
+  Rejected: "reject", // từ chối
+  Cancelled: "cancel", // hủy
+};
 
-  // Đầu tiên tạo một map với tất cả các phần tử trong data
-  for (i = 0; i < data.length; i += 1) {
-    map[data[i].Id] = i; // dùng Id làm khóa
-    data[i].children = []; // thêm thuộc tính children để chứa các nút con
-  }
+const StatusDetails = {
+  [RequestStatus.Pending]: { text: "Chờ phê duyệt", color: "" },
+  [RequestStatus.Accepted]: { text: "Đã duyệt", color: "green" },
+  [RequestStatus.Rejected]: { text: "Đã từ chối", color: "gray" },
+  [RequestStatus.Cancelled]: { text: "Đã hủy", color: "red" },
+};
 
-  for (i = 0; i < data.length; i += 1) {
-    node = data[i];
-    if (node.ParentID !== null) {
-      // Nếu có ParentID, tìm phần tử cha và thêm nút hiện tại vào mảng children của nó
-      data[map[node.ParentID]]?.children.push(node);
-    } else {
-      // Nếu không có ParentID, nó là nút gốc
-      roots.push(node);
-    }
-  }
+export const getStatusText = (status) => {
+  return StatusDetails[status]?.text || "Unknown status";
+};
 
-  // Trả về mảng gốc, trong trường hợp này chỉ có một phần tử gốc
-  return roots[0]; // Giả sử chỉ có một gốc
-}
+export const getStatusColor = (status) => {
+  return StatusDetails[status]?.color || "";
+};
