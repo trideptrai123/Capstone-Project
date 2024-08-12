@@ -25,7 +25,7 @@ const Blog = () => {
 
   const renderListPost = () =>
     data?.map((post) => (
-      <Col span={6}>
+      <Col  span={6}>
         <BlogCard post={post} />
       </Col>
     ));
@@ -51,8 +51,10 @@ const Blog = () => {
         }}
       ></h2>
 
-      <Row gutter={[48, 48]} className="blog-container">
-        <Col span={24}>
+      <Row gutter={[32, 32]} className="blog-container">
+        <Col style={{
+          marginBottom:-60
+        }} span={24}>
           <FilterBlog filter={filter} setFilter={setFilter} />
         </Col>
         {!data || data?.length === 0 ? (

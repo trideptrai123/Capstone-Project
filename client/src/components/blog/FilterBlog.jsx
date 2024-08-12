@@ -9,13 +9,8 @@ const { Title, Text } = Typography;
 
 const FilterBlog = ({ filter, setFilter }) => {
   const [search, setSearch] = useState("");
-  const {
-    data: universities,
-  } = useGetUniversitiesQuery({});
-  const {
-    data: listCate,
-  } = useGetListCateGoryQuery();
-  
+  const { data: universities } = useGetUniversitiesQuery({});
+  const { data: listCate } = useGetListCateGoryQuery();
 
   return (
     <Card
@@ -24,49 +19,24 @@ const FilterBlog = ({ filter, setFilter }) => {
         padding: 10,
       }}
     >
-       
       <Row gutter={[16, 16]} align="middle">
-        <Col xs={24} sm={24} md={24}>
-          <Row
-            gutter={[16, 16]}
+        <Col xs={6} sm={6} md={6}>
+          <div
             style={{
-              display: "flex",
-              alignItems: "flex-end",
+              fontWeight: "bold",
+              marginBottom: 2,
             }}
           >
-            <Col span={6}>
-              <div
-                style={{
-                  fontWeight: "bold",
-                  marginBottom: 2,
-                }}
-              >
-                Tiêu đề bài viết
-              </div>
-              <Input
-                placeholder="Tiêu đề"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                enterButton
-              />
-            </Col>
-            <Col
-              style={{
-                marginTop: -30,
-              }}
-            >
-              <Button
-                onClick={() => setFilter({ ...filter, search: search })}
-                style={{
-                  background: "#4facfe",
-                  color: "#fff",
-                }}
-              >
-                Tìm kiếm
-              </Button>
-            </Col>
-          </Row>
+            Tiêu đề bài viết
+          </div>
+          <Input
+            placeholder="Tiêu đề"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            enterButton
+          />
         </Col>
+
         <Col xs={24} sm={12} md={6}>
           <div
             style={{
@@ -74,7 +44,7 @@ const FilterBlog = ({ filter, setFilter }) => {
               marginBottom: 2,
             }}
           >
-           Danh mục bài viết
+            Danh mục bài viết
           </div>
           <Select
             placeholder="Danh mục"
@@ -98,17 +68,31 @@ const FilterBlog = ({ filter, setFilter }) => {
             Trường học
           </div>
           <Select
-           placeholder="Trường học"
+            placeholder="Trường học"
             value={filter.sort}
             onChange={(v) => setFilter({ ...filter, university: v })}
             style={{ width: "100%" }}
           >
-            <Option  value="">
-              Tất cả trường học
-            </Option>
-            {universities?.map(i =>  <Option value={i?._id}>{i?.name}</Option> )}
-            
+            <Option value="">Tất cả trường học</Option>
+            {universities?.map((i) => (
+              <Option value={i?._id}>{i?.name}</Option>
+            ))}
           </Select>
+        </Col>
+        <Col
+          style={{
+            marginTop: -10,
+          }}
+        >
+          <Button
+            onClick={() => setFilter({ ...filter, search: search })}
+            style={{
+              background: "#4facfe",
+              color: "#fff",
+            }}
+          >
+            Tìm kiếm
+          </Button>
         </Col>
       </Row>
     </Card>

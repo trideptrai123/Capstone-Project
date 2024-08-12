@@ -30,7 +30,7 @@ const FilterRanking = ({ filter, setFilter }) => {
           );
         })
       )
-      .catch(() => {});
+      .catch(() => { });
   };
 
   const fetchMajors = async () => {
@@ -87,7 +87,7 @@ const FilterRanking = ({ filter, setFilter }) => {
   return (
     <Card className="filter-card" style={{ marginBottom: 20 }}>
       <Row gutter={[16, 16]} align="middle">
-      <Col xs={24} md={6}>
+        <Col xs={24} md={6}>
           <div className="filter-label">Chọn năm xếp hạng</div>
           <Select
             value={filter.year}
@@ -111,7 +111,7 @@ const FilterRanking = ({ filter, setFilter }) => {
             style={{ width: "100%" }}
           ></Input>
         </Col>
-       
+
 
         <Col xs={24} md={6}>
           <div className="filter-label">Tìm kiếm Tỉnh/Thành phố:</div>
@@ -177,6 +177,8 @@ const FilterRanking = ({ filter, setFilter }) => {
             <Option disabled value="">
               Sắp xếp
             </Option>
+            <Option value="name asc">Tên trường (từ A - Z)</Option>
+            <Option value="name desc">Tên trường (từ Z - A)</Option>
             <Option value="rank asc">Thứ hạng (từ thấp đến cao)</Option>
             <Option value="rank desc">Thứ hạng (từ cao đến thấp)</Option>
             <Option value="teacher asc">
@@ -188,6 +190,11 @@ const FilterRanking = ({ filter, setFilter }) => {
 
             <Option value="major asc">Điểm ngành học (từ thấp đến cao)</Option>
             <Option value="major desc">Điểm ngành học (từ cao đến thấp)</Option>
+            <Option value="facility asc">Điểm cơ sở vật chất (từ thấp đến cao)</Option>
+
+            <Option value="facility desc">Điểm cơ sở vật chất (từ cao đến thấp)</Option>
+
+
           </Select>
         </Col>
 

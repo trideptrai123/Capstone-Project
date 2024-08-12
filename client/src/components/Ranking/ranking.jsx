@@ -1,17 +1,16 @@
-import { Avatar, message, Select, Spin, Table, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { useGetUniversitiesQuery } from "../../redux/universityApiSlice";
+import { Avatar, message, Select, Spin, Table, Tooltip } from "antd";
+import { StarFilled, HeartOutlined, HeartFilled } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import {
   useGetUserProfileQuery,
   useLikeUniversityMutation,
   useUnlikeUniversityMutation,
 } from "../../redux/usersApiSlice";
+import { useGetUniversitiesQuery } from "../../redux/universityApiSlice";
 import "./RankingScreen.css"; // Custom CSS for additional styling
 import FilterRanking from "./filerranking";
-import { StarFilled, HeartOutlined, HeartFilled } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const { Option } = Select;
 
@@ -27,57 +26,77 @@ const RankingScreen = () => {
     majorName: "",
     facultyQuality: "",
   });
+
   const {
     data: universities,
     refetch,
     isLoading,
     error,
   } = useGetUniversitiesQuery({ ...filter, userId: user?._id || "" });
+
   const { data: userProfile, refetch: refetchUserProfile } =
     useGetUserProfileQuery();
+
   const [likeUniversity] = useLikeUniversityMutation();
   const [unlike] = useUnlikeUniversityMutation();
 
-  const [sortedUniversities, setSortedUniversities] = useState([]);
-  const [sortCriteria, setSortCriteria] = useState("nationalRanking");
-  const [selectedColumn, setSelectedColumn] = useState("nationalRanking");
-  const {userInfo} = useSelector(state => state.auth)
-
   const history = useNavigate();
-  useEffect(() => {
-    if (universities) {
-      const sortedData = [...universities];
-      if (filter.sort === "asc") {
-        sortedData.sort((a, b) => a[sortCriteria] - b[sortCriteria]);
-      } else if (filter.sort === "desc") {
-        sortedData.sort((a, b) => b[sortCriteria] - a[sortCriteria]);
-      }
-      setSortedUniversities(sortedData);
-    }
-  }, [universities, filter, sortCriteria]);
 
   const handleLike = async (universityId) => {
     try {
       await likeUniversity(universityId);
       message.success("Đã thêm trường đại học vào danh sách yêu thích");
       refetchUserProfile();
-      refetch()
-    } catch (error) {
-      console.error("Error liking university:", error);
-    }
-  };
-  const handleUnlike = async (universityId) => {
-    try {
-      await unlike(universityId);
-      message.success("Đã xóa trường đại học vào danh sách yêu thích");
-      refetchUserProfile();
-      refetch()
+      refetch();
     } catch (error) {
       console.error("Error liking university:", error);
     }
   };
 
-  let columns = [
+  const handleUnlike = async (universityId) => {
+    try {
+      await unlike(universityId);
+      message.success("Đã xóa trường đại học khỏi danh sách yêu thích");
+      refetchUserProfile();
+      refetch();
+    } catch (error) {
+      console.error("Error unliking university:", error);
+    }
+  };
+
+  const handleTableChange = (pagination, filters, sorter) => {
+    const order = sorter.order === "ascend" ? "asc" : "desc";
+    const sortField = sorter.field;
+    let finalField = sortField;
+    switch (sortField) {
+      case "nationalRanking": {
+        finalField = "rank";
+        break;
+      }
+      case "facilitiesStandards": {
+        finalField = "facility";
+        break;
+      }
+      case "averageMajorScore": {
+        finalField = "major";
+        break;
+      }
+      case "averageTeacherRating": {
+        finalField = "teacher";
+        break;
+      }
+      default: {
+        finalField = "name";
+      }
+    }
+
+    setFilter((prev) => ({
+      ...prev,
+      sort: `${finalField} ${order}`,
+    }));
+  };
+
+  const columns = [
     {
       title: "Logo",
       dataIndex: "logo",
@@ -87,9 +106,12 @@ const RankingScreen = () => {
       ),
     },
     {
-      title: "Tên Trường",
+      title: <span title="">Tên Trường</span>,
       dataIndex: "name",
       key: "name",
+      sorter: true,
+      sortDirections: ["ascend", "descend", "ascend"],
+
       render: (text, record) => (
         <span
           onClick={() => history(`/UniversityInfo/${record._id}`)}
@@ -103,101 +125,91 @@ const RankingScreen = () => {
       title: "Xếp Hạng Toàn Quốc",
       dataIndex: "nationalRanking",
       key: "nationalRanking",
-      render: (txt) => {
-        return (
-          <div
-            style={{
-              fontSize: 25,
-              fontWeight: "bold",
-              color: "#ff6f61",
-            }}
-          >
-            {txt}
-          </div>
-        );
-      },
+      sorter: true,
+      sortDirections: ["ascend", "descend", "ascend"],
+
+      render: (text) => (
+        <div style={{ fontSize: 25, fontWeight: "bold", color: "#ff6f61" }}>
+          {text}
+        </div>
+      ),
     },
     {
       title: "Điểm cơ sở vật chất",
       dataIndex: "facilitiesStandards",
       key: "facilitiesStandards",
+      sorter: true,
+      sortDirections: ["ascend", "descend", "ascend"],
     },
     {
       title: "Điểm ngành học",
       dataIndex: "averageMajorScore",
-      key: "studentQuality",
-      render: (txt) => {
-        return <div>{Number(txt).toFixed(1)}</div>;
-      },
+      key: "averageMajorScore",
+      sorter: true,
+      sortDirections: ["ascend", "descend", "ascend"],
+
+      render: (text) => <div>{Number(text).toFixed(1)}</div>,
     },
     {
       title: "Chất lượng giảng viên",
       dataIndex: "averageTeacherRating",
       key: "averageTeacherRating",
-      render: (txt) => {
-        return (
-          <div>
-            {Number(txt).toFixed(1)} <StarFilled style={{ color: "gold" }} />
-          </div>
-        );
-      },
+      sorter: true,
+      sortDirections: ["ascend", "descend", "ascend"],
+
+      render: (text) => (
+        <div>
+          {Number(text).toFixed(1)} <StarFilled style={{ color: "gold" }} />
+        </div>
+      ),
     },
-    
   ];
-  if(filter.majorName){
-    columns.splice(6,0,{
-      
-        title: "Điểm chuẩn",
-        dataIndex: "admissionScore",
-        key: "admissionScore",
-        
-    })
+
+  if (filter.majorName) {
+    columns.splice(6, 0, {
+      title: "Điểm chuẩn",
+      dataIndex: "admissionScore",
+      key: "admissionScore",
+      sorter: true,
+      sortDirections: ["ascend", "descend", "ascend"],
+    });
   }
-  if(userInfo){
+
+  if (user) {
     columns.push({
       title: "Yêu thích",
       dataIndex: "1",
       key: "1",
       align: "center",
-      render: (txt, row) => {
-        return (
-          <div
-          onClick={() => {
-            !row?.isLike ? handleLike(row?._id)  : handleUnlike(row?._id)
+      render: (text, row) => (
+        <div
+          onClick={() =>
+            !row?.isLike ? handleLike(row?._id) : handleUnlike(row?._id)
+          }
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
           }}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              textAlign: "center",
-            }}
-          >
-            {row.isLike ? (
-              <Tooltip title="Bỏ thích">
-                <HeartFilled
-                  size={"large"}
-                  style={{
-                    color: "red",
-                  }}
-                />
-              </Tooltip>
-            ) : (
-              <Tooltip title="Thích">
-                <HeartOutlined size={"large"} style={{}} />
-              </Tooltip>
-            )}
-          </div>
-        );
-      },
-    },)
+        >
+          {row.isLike ? (
+            <Tooltip title="Bỏ thích">
+              <HeartFilled size={"large"} style={{ color: "red" }} />
+            </Tooltip>
+          ) : (
+            <Tooltip title="Thích">
+              <HeartOutlined size={"large"} />
+            </Tooltip>
+          )}
+        </div>
+      ),
+    });
   }
 
   return (
     <div
-      style={{
-        background: "white",
-        padding: 30,
-      }}
+      style={{ background: "white", padding: 30 }}
       className="ranking-list-container"
     >
       <h1
@@ -224,17 +236,13 @@ const RankingScreen = () => {
         <>
           <FilterRanking filter={filter} setFilter={setFilter} />
           <Table
+          showSorterTooltip={false}
             columns={columns}
-            dataSource={sortedUniversities}
+            dataSource={universities}
             rowKey="_id"
             pagination={false}
             className="ranking-table"
-            onChange={(pagination, filters, sorter) => {
-              if (sorter.order) {
-                setSortCriteria(sorter.columnKey);
-                setSelectedColumn(sorter.columnKey);
-              }
-            }}
+            onChange={handleTableChange}
           />
         </>
       )}
