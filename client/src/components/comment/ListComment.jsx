@@ -41,7 +41,7 @@ export const AddComment = ({
     const body = {
       content: value,
       blogPostId: id,
-      userId: userInfo._id,
+      userId: userInfo?._id,
       parentComment: parentComment || null,
     };
     try {
@@ -137,13 +137,13 @@ const ListComment = () => {
       blogPostId: commetItem?.blogPostId,
       userId: userIdComment,
       parentComment: commetItem?.parentComment || null,
-      id: commetItem._id,
+      id: commetItem?._id,
       actions: [
         <span
           onClick={() => {
             isparent === true
-              ? setCurrentIdReply(commetItem._id)
-              : setCurrentIdReply2(String(commetItem._id));
+              ? setCurrentIdReply(commetItem?._id)
+              : setCurrentIdReply2(String(commetItem?._id));
             setMode("add");
           }}
           key="comment-list-reply-to-0"
@@ -154,8 +154,8 @@ const ListComment = () => {
           <span
             onClick={() => {
               isparent === true
-                ? setCurrentIdReply(commetItem._id)
-                : setCurrentIdReply2(String(commetItem._id));
+                ? setCurrentIdReply(commetItem?._id)
+                : setCurrentIdReply2(String(commetItem?._id));
               setMode("edit");
             }}
             key="comment-list-reply-to-0"
@@ -164,7 +164,7 @@ const ListComment = () => {
           </span>
         ) : null,
         <span
-          onClick={() => handleDelete(commetItem._id)}
+          onClick={() => handleDelete(commetItem?._id)}
           key="comment-list-reply-to-0"
         >
           Xóa
@@ -196,7 +196,7 @@ const ListComment = () => {
     if (Array.isArray(commetItem.replies) && commetItem?.replies?.length > 0) {
       item.replies = commetItem.replies
         .map(mapItem(false))
-        .map((i) => ({ ...i, pid: commetItem._id }));
+        .map((i) => ({ ...i, pid: commetItem?._id }));
     }
     return item;
   });

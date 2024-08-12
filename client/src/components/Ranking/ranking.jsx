@@ -41,6 +41,8 @@ const RankingScreen = () => {
   const [sortedUniversities, setSortedUniversities] = useState([]);
   const [sortCriteria, setSortCriteria] = useState("nationalRanking");
   const [selectedColumn, setSelectedColumn] = useState("nationalRanking");
+  const {userInfo} = useSelector(state => state.auth)
+
   const history = useNavigate();
   useEffect(() => {
     if (universities) {
@@ -75,7 +77,7 @@ const RankingScreen = () => {
     }
   };
 
-  const columns = [
+  let columns = [
     {
       title: "Logo",
       dataIndex: "logo",
@@ -140,7 +142,19 @@ const RankingScreen = () => {
         );
       },
     },
-    {
+    
+  ];
+  if(filter.majorName){
+    columns.splice(6,0,{
+      
+        title: "Điểm chuẩn",
+        dataIndex: "admissionScore",
+        key: "admissionScore",
+        
+    })
+  }
+  if(userInfo){
+    columns.push({
       title: "Yêu thích",
       dataIndex: "1",
       key: "1",
@@ -175,8 +189,8 @@ const RankingScreen = () => {
           </div>
         );
       },
-    },
-  ];
+    },)
+  }
 
   return (
     <div

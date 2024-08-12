@@ -143,28 +143,12 @@ const Profile = () => {
         </span>
       ),
     },
-    {
-      title: "Xếp Hạng Toàn Quốc",
-      dataIndex: "nationalRanking",
-      key: "nationalRanking",
-      render: (txt) => {
-        return (
-          <div
-            style={{
-              fontSize: 25,
-              fontWeight: "bold",
-              color: "#ff6f61",
-            }}
-          >
-            {txt}
-          </div>
-        );
-      },
-    },
+   
     {
       title: "Điểm cơ sở vật chất",
       dataIndex: "facilitiesStandards",
       key: "facilitiesStandards",
+      align:"center"
     },
     {
       title: "Thành phố",

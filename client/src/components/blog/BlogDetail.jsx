@@ -6,11 +6,13 @@ import Loader from "../loader/Loader";
 import "./blog.css"; // If you still need custom CSS
 import { dateFormat3 } from "../../utils/helpers";
 import ListComment from "../comment/ListComment";
+import { useSelector } from "react-redux";
 
 const BlogDetail = () => {
   const [searchInput, setSearchInput] = useState("");
   const { id } = useParams();
   const { data, isFetching } = useGetPostDetailQuery(id);
+  const {userInfo} = useSelector(state => state.auth)
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);
   };
@@ -70,7 +72,7 @@ const BlogDetail = () => {
             marginBottom: 20,
           }}
         ></div>
-      <ListComment />
+     {userInfo &&  <ListComment />}
     </div>
   );
 };

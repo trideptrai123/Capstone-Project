@@ -42,19 +42,20 @@ const router = createBrowserRouter(
       <Route index={true} path='/' element={<Home />} />
       <Route path='/login' element={<LoginScreen />} />
       <Route path='/register' element={<RegisterScreen />} />
+      <Route path='/intro' element={<IntroductionPage />} />
+      <Route path='/contact' element={<ContactUs />} />
+      <Route path='/ranking' element={<RankingScreen />} />
+      <Route path='/UniversityInfo/:id' element={<UniversityInfo />} />
+      <Route path='/blog' element={<Blog />} />
+      <Route path='/blog-detail/:id' element={<BlogDetail />} />
+
       {/* Registered users */}
       <Route path='' element={<PrivateRoute />}>
         <Route path='/profile' element={<ProfilePage />} />
-        <Route path='/blog' element={<Blog />} />
-        <Route path='/blog-detail/:id' element={<BlogDetail />} />
        
-        <Route path='/ranking' element={<RankingScreen />} />
-        <Route path='/UniversityInfo/:id' element={<UniversityInfo />} />
         <Route path='/chat' element={<Chats />} />
-        <Route path='/contact' element={<ContactUs />} />
         <Route path='/change-pass' element={<ChangePasswordScreen />} />
-        <Route path='/intro' element={<IntroductionPage />} />
-
+       
       </Route>
       {/* Admin users */}
       <Route path='' element={<AdminRoute />}>
