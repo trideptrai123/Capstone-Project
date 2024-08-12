@@ -158,10 +158,10 @@ const ListRequests = () => {
                 {data.map((request, i) => (
                   <TableRow key={i}>
                     <TableCell>
-                      <span className="text-sm">{request.teacherId.name}</span>
+                      <span className="text-sm">{request.teacherId?.name}</span>
                     </TableCell>
                     <TableCell>
-                      <span className="text-sm">{request.majorId.name}</span>
+                      <span className="text-sm">{request.majorId?.name}</span>
                     </TableCell>
                     <TableCell>
                       <span className="text-sm">{request.year}</span>
