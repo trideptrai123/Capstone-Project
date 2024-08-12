@@ -264,9 +264,9 @@ const Chats = () => {
         <div className="md:col-span-3 ">
           {!selectedChat ? (
             <div className=" flex flex-col justify-center items-center">
-              <SelectChatWaiter />
-              <p className="text-gray-600 dark:text-gray-400">
-                Chọn phòng chat
+              
+              <p className="text-gray-600 dark:text-gray-400 mt-20">
+                Chọn phòng chat để bắt đầu cuộc trò chuyện
               </p>
             </div>
           ) : (

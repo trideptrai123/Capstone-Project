@@ -26,7 +26,6 @@
 .footer-contact-info .footer-flex, .footer-social-media .footer-flex {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
 }
 
 .footer-contact-info .footer-flex p, .footer-social-media .footer-flex a {

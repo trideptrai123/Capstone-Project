@@ -10,15 +10,15 @@ const Footer = () => {
           <h3>Liên hệ</h3>
           <div className="footer-flex">
             <FaMapMarkerAlt />
-            <p>123 Đường ABC, Thành phố XYZ</p>
+            <p style={{marginTop:16}}>06 Nguyễn Trung Trực TP Quy Nhơn </p>
           </div>
           <div className="footer-flex">
             <FaPhone />
-            <p>(+84) 123 456 789</p>
+            <p style={{marginTop:16}}>0706203379</p>
           </div>
           <div className="footer-flex">
             <FaEnvelope />
-            <p>example@email.com</p>
+            <p style={{marginTop:16}}>Phamphuoctri@gmail.com </p>
           </div>
         </div>
         <div className='footer-social-media'>

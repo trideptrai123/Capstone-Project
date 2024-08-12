@@ -69,10 +69,13 @@ const RegisterScreen = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-lg p-8 space-y-8 bg-white rounded shadow-md">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 ">
+
+      <div className="w-full max-w-lg p-8 space-y-8 bg-white rounded shadow-md relative">
+      <div onClick={() => navigate("/")} className="absolute top-3 right-3 cursor-pointer text-xl rounded-full">x</div>
+
         <h2 className="text-2xl font-bold text-center">Đăng ký</h2>
-        <form className="space-y-6" onSubmit={submitHandler}>
+        <form className="space-y-6 relative" onSubmit={submitHandler}>
           <div>
             <Input
             className="w-[400px]"
