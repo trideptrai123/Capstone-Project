@@ -6,6 +6,7 @@ import {
   Input,
   Textarea,
   Button,
+  Select,
 } from "@windmill/react-ui";
 import { message } from "antd";
 import { useHistory, useParams } from "react-router-dom";
@@ -13,6 +14,8 @@ import { uploadImageToFirebase } from "../../utils/helper";
 import PageTitle from "../../components/Typography/PageTitle";
 import { univerApi } from "../../api/univerApi";
 import SelectCity from "../../components/ListCity";
+import { DeleteOutlined } from "@ant-design/icons";
+import { data } from "autoprefixer";
 
 const AddOrEditUniversity = () => {
   const history = useHistory();
@@ -26,7 +29,7 @@ const AddOrEditUniversity = () => {
     admissionCode: "",
     description: "",
     website: "",
-    nationalRanking: "",
+    nationalRanking: [{ year: "", rank: "" }],
     facilitiesStandards: "",
     logo: "",
   });
@@ -35,7 +38,6 @@ const AddOrEditUniversity = () => {
 
   useEffect(() => {
     if (id) {
-      // Fetch university data if editing
       const fetchUniversity = async () => {
         try {
           const response = await univerApi.getUniversityById(id);
@@ -54,16 +56,48 @@ const AddOrEditUniversity = () => {
     if (!dataPost.name) tempErrors.name = "Tên trường không được để trống.";
     if (!dataPost.city) tempErrors.city = "Thành phố không được để trống.";
     if (!dataPost.address) tempErrors.address = "Địa chỉ không được để trống.";
-    if (!dataPost.establishedYear) tempErrors.establishedYear = "Năm thành lập không được để trống.";
-    if (dataPost.establishedYear <= 0 || dataPost.establishedYear > new Date().getFullYear()) {
-      tempErrors.establishedYear = "Năm thành lập phải là số nguyên dương và không được là năm tương lai.";
+    if (!dataPost.establishedYear)
+      tempErrors.establishedYear = "Năm thành lập không được để trống.";
+    if (
+      dataPost.establishedYear <= 0 ||
+      dataPost.establishedYear > new Date().getFullYear()
+    ) {
+      tempErrors.establishedYear =
+        "Năm thành lập phải là số nguyên dương và không được là năm tương lai.";
     }
-    if (!dataPost.admissionCode) tempErrors.admissionCode = "Mã tuyển sinh không được để trống.";
-    if (!dataPost.description) tempErrors.description = "Mô tả không được để trống.";
-    if (!dataPost.nationalRanking) tempErrors.nationalRanking = "Xếp hạng quốc gia không được để trống.";
-    if (dataPost.facilitiesStandards === "" || dataPost.facilitiesStandards < 0 || dataPost.facilitiesStandards > 100) {
+    if (!dataPost.admissionCode)
+      tempErrors.admissionCode = "Mã tuyển sinh không được để trống.";
+    if (!dataPost.description)
+      tempErrors.description = "Mô tả không được để trống.";
+    if (!dataPost.nationalRanking.length)
+      tempErrors.nationalRanking = "Phải có ít nhất một xếp hạng quốc gia.";
+
+    dataPost.nationalRanking.forEach((ranking, index) => {
+      if (ranking.rank < 1 || ranking.rank > 100) {
+        tempErrors[`nationalRanking-${index}`] = "Xếp hạng phải từ 1 đến 100.";
+      }
+      const yearExists = dataPost.nationalRanking.findIndex(
+        (item, i) => item.year === ranking.year && i !== index && item.year
+      );
+      const yearError = dataPost.nationalRanking.findIndex(
+        (item, i) => !item.year
+      );
+      if (yearExists !== -1) {
+        tempErrors[`nationalRanking-${index}`] = "Năm này đã được chọn.";
+      }
+      if (yearError !== -1) {
+        tempErrors[`nationalRanking-${index}`] = "Năm học không được để trống";
+      }
+    });
+
+    if (
+      dataPost.facilitiesStandards === "" ||
+      dataPost.facilitiesStandards < 0 ||
+      dataPost.facilitiesStandards > 100
+    ) {
       tempErrors.facilitiesStandards = "Điểm cơ sở vật chất phải từ 0 đến 100.";
     }
+
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
@@ -103,12 +137,40 @@ const AddOrEditUniversity = () => {
     });
   };
 
+  const handleRankingChange = (index, field, value) => {
+    const updatedRanking = [...dataPost.nationalRanking];
+    updatedRanking[index] = {
+      ...updatedRanking[index],
+      [field]: value,
+    };
+    setDataPost({ ...dataPost, nationalRanking: updatedRanking });
+  };
+
+  const addRanking = () => {
+    setDataPost({
+      ...dataPost,
+      nationalRanking: [...dataPost.nationalRanking, { year: "", rank: "" }],
+    });
+  };
+
+  const removeRanking = (index) => {
+    const updatedRanking = dataPost.nationalRanking.filter(
+      (_, i) => i !== index
+    );
+    setDataPost({ ...dataPost, nationalRanking: updatedRanking });
+  };
+
   return (
     <div>
-      <PageTitle>{id ? "Chỉnh sửa Trường Đại Học" : "Thêm Trường Đại Học"}</PageTitle>
+      <PageTitle>
+        {id ? "Chỉnh sửa Trường Đại Học" : "Thêm Trường Đại Học"}
+      </PageTitle>
       <Card className="mb-8 shadow-md">
         <CardBody>
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
             <div>
               <Label className="mb-4">
                 <span className="text-white">Tên trường:</span>
@@ -118,13 +180,20 @@ const AddOrEditUniversity = () => {
                   onChange={onChangeDataPost("name")}
                   placeholder="Nhập tên trường"
                 />
-                {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+                {errors.name && (
+                  <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+                )}
               </Label>
 
               <Label className="mb-4">
                 <span className="text-white mb-1 inline-block">Thành phố:</span>
-                <SelectCity city={dataPost.city} setCity={(city) => setDataPost({ ...dataPost, city })} />
-                {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
+                <SelectCity
+                  city={dataPost.city}
+                  setCity={(city) => setDataPost({ ...dataPost, city })}
+                />
+                {errors.city && (
+                  <p className="text-red-500 text-xs mt-1">{errors.city}</p>
+                )}
               </Label>
 
               <Label className="mb-4">
@@ -135,7 +204,9 @@ const AddOrEditUniversity = () => {
                   onChange={onChangeDataPost("address")}
                   placeholder="Nhập địa chỉ"
                 />
-                {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
+                {errors.address && (
+                  <p className="text-red-500 text-xs mt-1">{errors.address}</p>
+                )}
               </Label>
 
               <Label className="mb-4">
@@ -147,7 +218,11 @@ const AddOrEditUniversity = () => {
                   onChange={onChangeDataPost("establishedYear")}
                   placeholder="Nhập năm thành lập"
                 />
-                {errors.establishedYear && <p className="text-red-500 text-xs mt-1">{errors.establishedYear}</p>}
+                {errors.establishedYear && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.establishedYear}
+                  </p>
+                )}
               </Label>
 
               <Label className="mb-4">
@@ -158,7 +233,11 @@ const AddOrEditUniversity = () => {
                   onChange={onChangeDataPost("admissionCode")}
                   placeholder="Nhập mã tuyển sinh"
                 />
-                {errors.admissionCode && <p className="text-red-500 text-xs mt-1">{errors.admissionCode}</p>}
+                {errors.admissionCode && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.admissionCode}
+                  </p>
+                )}
               </Label>
 
               <Label className="mb-4">
@@ -169,7 +248,11 @@ const AddOrEditUniversity = () => {
                   onChange={onChangeDataPost("description")}
                   placeholder="Nhập mô tả"
                 />
-                {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
+                {errors.description && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.description}
+                  </p>
+                )}
               </Label>
 
               <Label className="mb-4">
@@ -183,14 +266,68 @@ const AddOrEditUniversity = () => {
               </Label>
 
               <Label className="mb-4">
-                <span className="text-white">Xếp hạng quốc gia:</span>
-                <Input
-                  className="mt-1"
-                  value={dataPost.nationalRanking}
-                  onChange={onChangeDataPost("nationalRanking")}
-                  placeholder="Nhập xếp hạng quốc gia"
-                />
-                {errors.nationalRanking && <p className="text-red-500 text-xs mt-1">{errors.nationalRanking}</p>}
+             <div className="text-white">Xếp hạng quốc gia:</div>
+           
+                {dataPost.nationalRanking.map((ranking, index) => (
+                  <>
+                    <div key={index} className="flex items-center mb-2">
+                      <Select
+                        className="mt-1 mr-2 w-1/2"
+                        value={ranking.year}
+                        onChange={(e) =>
+                          handleRankingChange(index, "year", e.target.value)
+                        }
+                      
+                      >
+                        <option value="">Chọn năm</option>
+                        {Array.from(
+                          { length: new Date().getFullYear() - 1799 },
+                          (_, i) => (
+                            <option
+                            disabled={dataPost.nationalRanking.some(
+                              (item, id) => item.year == new Date().getFullYear() - i && id !== index
+                            )}
+                              key={i}
+                              value={new Date().getFullYear() - i}
+                            >
+                              {new Date().getFullYear() - i}
+                            </option>
+                          )
+                        )}
+                      </Select>
+                      <Input
+                        type="number"
+                        className="mt-1 mr-2 w-1/2"
+                        value={ranking.rank}
+                        onChange={(e) =>
+                          handleRankingChange(index, "rank", e.target.value)
+                        }
+                        placeholder="Xếp hạng"
+                      />
+                      <DeleteOutlined
+                      disabled={dataPost.nationalRanking.length === 1}
+                        onClick={() => removeRanking(index)}
+                        className="ml-2 mt-2 text-white"
+                      />
+                    </div>
+                    {errors[`nationalRanking-${index}`] && (
+                      <div className="flex justify-end mb-3 -ml-8">
+                        <p className="text-red-500 text-xs text-left w-1/2 ">
+                          {errors[`nationalRanking-${index}`]}
+                        </p>
+                      </div>
+                    )}
+                  </>
+                ))}
+              
+              <Button
+                  onClick={addRanking}
+                  type="button"
+                  className="mb-4 bg-red-500"
+                >
+                  + Thêm
+                </Button>
+
               </Label>
 
               <Label className="mb-4">
@@ -202,7 +339,11 @@ const AddOrEditUniversity = () => {
                   onChange={onChangeDataPost("facilitiesStandards")}
                   placeholder="Nhập điểm cơ sở vật chất"
                 />
-                {errors.facilitiesStandards && <p className="text-red-500 text-xs mt-1">{errors.facilitiesStandards}</p>}
+                {errors.facilitiesStandards && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.facilitiesStandards}
+                  </p>
+                )}
               </Label>
             </div>
 
@@ -219,19 +360,28 @@ const AddOrEditUniversity = () => {
                     src={dataPost.logo || "/avt.png"}
                     alt="logo"
                   />
-                  <input ref={fileRef} onChange={changeFile} type="file" className="hidden" />
+                  <input
+                    ref={fileRef}
+                    onChange={changeFile}
+                    type="file"
+                    className="hidden"
+                  />
                 </div>
-                <Button onClick={() => fileRef.current.click()} className="mt-5 mb-5" size="small">
+                <Button
+                  onClick={() => fileRef.current.click()}
+                  className="mt-5 mb-5"
+                  size="small"
+                >
                   + Thêm logo
                 </Button>
               </Label>
             </div>
 
             <div className="md:col-span-2 flex ">
-  <Button type="submit" className="mt-4">
-    {id ? "Cập nhật trường" : "Thêm trường"}
-  </Button>
-</div>
+              <Button type="submit" className="mt-4">
+                {id ? "Cập nhật trường" : "Thêm trường"}
+              </Button>
+            </div>
           </form>
         </CardBody>
       </Card>

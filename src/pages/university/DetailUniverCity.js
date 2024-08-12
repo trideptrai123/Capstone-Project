@@ -43,7 +43,6 @@ if(!university)return null
           <ul>
             <li><strong>Năm thành lập:</strong> {university.establishedYear}</li>
             <li><strong>Website:</strong> <a href={university.website} target="_blank" rel="noopener noreferrer">{university.website}</a></li>
-            <li><strong>Xếp hạng quốc gia:</strong> {university.nationalRanking}</li>
             <li><strong>Điểm cơ sở vật chất:</strong> {university.facilitiesStandards}</li>
           </ul>
         </div>

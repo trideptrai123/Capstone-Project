@@ -121,7 +121,7 @@ const Chats = () => {
 
       // Cleanup on component unmount
       return () => {
-        socket.disconnect();
+        // socket.disconnect();
       };
     }
   }, [selectedChat?._id]);

@@ -6,8 +6,17 @@ import useAuthStore from "../zustand/authStore";
 import { univerApi } from "../api/univerApi";
 import { majorApi } from "../api/majorApi";
 import InfoCard from "../components/Cards/InfoCard";
-import { ChatIcon, CartIcon, MoneyIcon, PeopleIcon, School4, Teacher4, Rate4 } from "../icons";
+import {
+  ChatIcon,
+  CartIcon,
+  MoneyIcon,
+  PeopleIcon,
+  School4,
+  Teacher4,
+  Rate4,
+} from "../icons";
 import RoundIcon from "../components/RoundIcon";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const DashboardStaff = () => {
   const [startYear, setStartYear] = useState(new Date().getFullYear() - 10);
@@ -18,7 +27,7 @@ const DashboardStaff = () => {
 
   const [majors, setMajors] = useState([]);
   const { user } = useAuthStore();
-
+  const history = useHistory();
   useEffect(() => {
     const fetchMajors = async () => {
       try {
@@ -35,9 +44,8 @@ const DashboardStaff = () => {
   useEffect(() => {
     const fetTotal = async () => {
       try {
-        console.log("VAO DATTTTTTTTTTTTTTTTTTTTT")
         const res = await univerApi.getTotalStaff(user.universityId);
-        console.log(res)
+        console.log(res);
         setToal(res.data);
       } catch (error) {
         console.error("Error fetching majors:", error);
@@ -109,32 +117,39 @@ const DashboardStaff = () => {
     <div>
       <h1 className="text-xl text-gray-300 my-5">Trang chủ</h1>
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
-        <InfoCard title="Tổng số ngành học" value={total.totalMajors}>
-          <RoundIcon
-            icon={School4}
-            iconColorClass="text-orange-500 dark:text-orange-100"
-            bgColorClass="bg-orange-100 dark:bg-orange-500"
-            className="mr-4"
-          />
-        </InfoCard>
-
-        <InfoCard title="Số lượng giảng viên" value={total.totalTeachers}>
-          <RoundIcon
-            icon={Teacher4}
-            iconColorClass="text-green-500 dark:text-green-100"
-            bgColorClass="bg-green-100 dark:bg-green-500"
-            className="mr-4"
-          />
-        </InfoCard>
-
-        <InfoCard title="Chất lượng giảng viên" value={`${Number(total.averageTeacherRating || 0).toFixed(1)}  ★`}>
-          <RoundIcon
-            icon={Rate4}
-            iconColorClass="text-blue-500 dark:text-blue-100"
-            bgColorClass="bg-blue-100 dark:bg-blue-500"
-            className="mr-4"
-          />
-        </InfoCard>
+        <div onClick={() => history.push("/app/list-major")}>
+          <InfoCard title="Tổng số ngành học" value={total.totalMajors}>
+            <RoundIcon
+              icon={School4}
+              iconColorClass="text-orange-500 dark:text-orange-100"
+              bgColorClass="bg-orange-100 dark:bg-orange-500"
+              className="mr-4"
+            />
+          </InfoCard>
+        </div>
+        <div onClick={() => history.push("/app/list-teacher")}>
+          <InfoCard title="Số lượng giảng viên" value={total.totalTeachers}>
+            <RoundIcon
+              icon={Teacher4}
+              iconColorClass="text-green-500 dark:text-green-100"
+              bgColorClass="bg-green-100 dark:bg-green-500"
+              className="mr-4"
+            />
+          </InfoCard>
+        </div>
+        <div onClick={() => history.push("/app/list-teacher")}>
+          <InfoCard
+            title="Chất lượng giảng viên"
+            value={`${Number(total.averageTeacherRating || 0).toFixed(1)}  ★`}
+          >
+            <RoundIcon
+              icon={Rate4}
+              iconColorClass="text-blue-500 dark:text-blue-100"
+              bgColorClass="bg-blue-100 dark:bg-blue-500"
+              className="mr-4"
+            />
+          </InfoCard>
+        </div>
       </div>
       <div className="flex flex-wrap mb-4">
         <Label className="mr-2">

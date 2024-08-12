@@ -10,7 +10,8 @@ import {
     TableCell,
     TableContainer,
     TableHeader,
-    TableRow
+    TableRow,
+    Select
 } from "@windmill/react-ui";
 import { message } from "antd";
 import React, { useEffect, useState } from "react";
@@ -23,7 +24,11 @@ import { handleErrorHttp } from "../../error/HttpError";
 import { AddIcon } from "../../icons";
 
 const resultsPerPage = 10;
-
+const currentYear = new Date().getFullYear();
+const years = Array.from(
+  new Array(currentYear - 1799),
+  (val, index) => 1800 + index
+).reverse();
 const ListUniversities = () => {
   const history = useHistory();
   const [universities, setUniversities] = useState([]);
@@ -32,6 +37,7 @@ const ListUniversities = () => {
   const [textSearch, setTextSearch] = useState("");
   const [cityFilter, setCityFilter] = useState("");
   const [cities, setCities] = useState([]);
+  const [yearFilter, setYearFilter] = useState(years[0]);
 
   useEffect(() => {
     fetchUniversities();
@@ -48,6 +54,7 @@ const ListUniversities = () => {
       const response = await univerApi.getAllUniver({
         name: textSearch,
         city: cityFilter,
+        year:yearFilter
       });
       setUniversities(response.data);
     } catch (error) {
@@ -115,6 +122,20 @@ const ListUniversities = () => {
                 ))}
               </SelectCity>
             </Label>
+            <Label className="mr-4 ">
+              <div className="text-gray-100 mb-2">Năm</div>
+              <Select
+                value={yearFilter}
+                onChange={(e) => setYearFilter(e.target.value)}
+                className=""
+              >
+                {years.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </Select>
+            </Label>
 
             <Button className="ml-2" onClick={handleSearch} size="regular">
               Tìm kiếm
@@ -139,7 +160,7 @@ const ListUniversities = () => {
                 </tr>
               </TableHeader>
               <TableBody>
-                {data?.reverse()?.map((university, i) => (
+                {data?.map((university, i) => (
                   <TableRow key={i}>
                     <TableCell>
                       <img

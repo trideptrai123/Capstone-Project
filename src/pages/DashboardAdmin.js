@@ -19,6 +19,7 @@ import {
     TableHeader,
     TableRow
 } from "@windmill/react-ui";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 const DashboardAdmin = () => {
   const [startYear, setStartYear] = useState(new Date().getFullYear() - 10);
   const [endYear, setEndYear] = useState(new Date().getFullYear());
@@ -26,6 +27,7 @@ const DashboardAdmin = () => {
   const [data, setData] = useState([]);
   const [total, setToal] = useState({});
   const [list,setList] = useState([])
+  const history = useHistory();
 
   const [majors, setMajors] = useState([]);
   const { user } = useAuthStore();
@@ -90,6 +92,7 @@ const DashboardAdmin = () => {
     <div>
       <h1 className="text-xl text-gray-300 my-5">Trang chủ</h1>
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
+      <div onClick={() => history.push("/app/customers")}>
         <InfoCard title="Số lượng người dùng" value={total.totalUsers}>
           <RoundIcon
             icon={PeopleIcon}
@@ -98,7 +101,8 @@ const DashboardAdmin = () => {
             className="mr-4"
           />
         </InfoCard>
-
+        </div>
+        <div onClick={() => history.push("/app/list-university")}>
         <InfoCard title="Số lượng trường học" value={total.totalUniversities}>
           <RoundIcon
             icon={School4}
@@ -107,6 +111,7 @@ const DashboardAdmin = () => {
             className="mr-4"
           />
         </InfoCard>
+        </div>
 
         <InfoCard title="Số lượng bài viết" value={`${Number(total.totalBlogPosts || 0)}`}>
           <RoundIcon
@@ -130,7 +135,6 @@ const DashboardAdmin = () => {
                   <TableCell>Tên trường</TableCell>
                   <TableCell>Thành phố</TableCell>
                   <TableCell>Năm thành lập</TableCell>
-                  <TableCell>Xếp hạng quốc gia</TableCell>
                 </tr>
               </TableHeader>
               <TableBody>
@@ -161,11 +165,7 @@ const DashboardAdmin = () => {
                         {university.establishedYear}
                       </span>
                     </TableCell>
-                    <TableCell>
-                      <span className="text-sm">
-                        {university.nationalRanking}
-                      </span>
-                    </TableCell>
+
                  
                   </TableRow>
                 ))}

@@ -1,46 +1,39 @@
-import React, { useState, useEffect } from "react";
 import {
-  TableBody,
-  TableContainer,
-  Table,
-  TableHeader,
-  TableCell,
-  TableRow,
-  TableFooter,
-  Avatar,
-  Badge,
   Pagination,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableFooter,
+  TableHeader,
+  TableRow
 } from "@windmill/react-ui";
-import { HomeIcon, AddIcon, PublishIcon, StoreIcon } from "../icons";
+import React, { useEffect, useState } from "react";
+import { AddIcon } from "../icons";
 
-import useFetchData from "../hook/useFetchData";
-import { productApi } from "../api/productApi";
-import { dateFormat } from "../utils/helper";
-import { handleErrorHttp } from "../error/HttpError";
-import { Modal, message } from "antd";
 import {
+  Button,
   Card,
   CardBody,
-  Label,
   Input,
-  Textarea,
-  Button,
-  Select,
+  Label,
+  Select
 } from "@windmill/react-ui";
+import { Modal, message } from "antd";
+import { handleErrorHttp } from "../error/HttpError";
+import useFetchData from "../hook/useFetchData";
 
-import { FormTitle } from "../pages/AddProduct";
-import { authApi } from "../api/authApi";
-import PageTitle from "./Typography/PageTitle";
-import useAuthStore from "../zustand/authStore";
-import Password from "antd/es/input/Password";
-import { name } from "faker/lib/locales/az";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { authApi } from "../api/authApi";
 import { univerApi } from "../api/univerApi";
+import { FormTitle } from "../pages/AddProduct";
+import useAuthStore from "../zustand/authStore";
+import PageTitle from "./Typography/PageTitle";
 export const listTypeUser = {
   "Student university": "Sinh viên đại học",
   "High school student": "Học sinh trung học",
 };
-const UserTable = ({ resultsPerPage, filter }) => {
+const UserTable = ({ resultsPerPage  , filter }) => {
   const [textSearch, setTextSearch] = useState("");
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
@@ -94,7 +87,6 @@ const UserTable = ({ resultsPerPage, filter }) => {
     });
   };
   useEffect(() => {
-    setData(response.slice((page - 1) * resultsPerPage, page * resultsPerPage));
     setData(response.slice((page - 1) * resultsPerPage, page * resultsPerPage));
   }, [page, resultsPerPage]);
 
@@ -165,9 +157,7 @@ const UserTable = ({ resultsPerPage, filter }) => {
       setResponse(
         user.isAdmin ? res.data : res.data.filter((i) => i.role === "user")
       );
-      setData(
-        user.isAdmin ? res.data : res.data.filter((i) => i.role === "user")
-      );
+      setData(res.data.slice((page - 1) * resultsPerPage, page * resultsPerPage));
     } catch (error) {
       handleErrorHttp(error);
     }

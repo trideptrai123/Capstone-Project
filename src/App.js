@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import AccessibleNavigationAnnouncer from "./components/AccessibleNavigationAnnouncer";
 import useAuthStore from "./zustand/authStore";
+import { socket } from "./socket";
 
 const Layout = lazy(() => import("./containers/Layout"));
 const Login = lazy(() => import("./pages/Login"));
@@ -18,25 +19,25 @@ function PrivateRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
-      render={props =>
-        isLogin ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to="/login" />
-        )
+      render={(props) =>
+        isLogin ? <Component {...props} /> : <Redirect to="/login" />
       }
     />
   );
 }
 
 function PublicRoute({ component: Component, restricted, ...rest }) {
-  const { isLogin,user :{role}  } = useAuthStore();
+  const {
+    isLogin,
+    user: { role },
+  } = useAuthStore();
+
   return (
     <Route
       {...rest}
-      render={props =>
+      render={(props) =>
         isLogin && restricted ? (
-          <Redirect to={`${role == "teacher" ? "app/list-major" :"/app"}`} />
+          <Redirect to={`${role == "teacher" ? "app/list-major" : "/app"}`} />
         ) : (
           <Component {...props} />
         )
@@ -47,7 +48,24 @@ function PublicRoute({ component: Component, restricted, ...rest }) {
 
 function App() {
   const { getInfoUser } = useAuthStore();
-  
+  const { isLogin, user } = useAuthStore();
+  useEffect(() => {
+    if (isLogin && user && user.role != "admin") {
+      socket.connect();
+
+      // Join the room
+      socket.emit("joinUniversity", user?.universityId);
+      // Cleanup on component unmount
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [isLogin, user]);
+  useEffect(() => {
+    socket.on("noty", (noty) => {
+      console.log(noty);
+    });
+  }, []);
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -65,8 +83,16 @@ function App() {
         <AccessibleNavigationAnnouncer />
         <Switch>
           <PublicRoute restricted={true} path="/login" component={Login} />
-          <PublicRoute restricted={true} path="/create-account" component={CreateAccount} />
-          <PublicRoute restricted={true} path="/forgot-password" component={ForgotPassword} />
+          <PublicRoute
+            restricted={true}
+            path="/create-account"
+            component={CreateAccount}
+          />
+          <PublicRoute
+            restricted={true}
+            path="/forgot-password"
+            component={ForgotPassword}
+          />
           <PrivateRoute path="/app" component={Layout} />
           <Redirect exact from="/" to="/login" />
         </Switch>
