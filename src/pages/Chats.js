@@ -231,7 +231,7 @@ const Chats = () => {
         <div className="md:col-span-3 ">
           {!selectedChat ? (
             <div className="mt-32 flex flex-col justify-center items-center">
-              <SelectChatWaiter />
+              {/* <SelectChatWaiter /> */}
               <p className="text-gray-600 dark:text-gray-400">
                 Chọn phòng chat
               </p>

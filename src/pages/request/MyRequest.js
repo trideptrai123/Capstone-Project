@@ -167,7 +167,7 @@ const MyRequests = () => {
                         
                       )}
                    </div>
-                   {request.status === "cancel" && (
+                   {(request.status === "cancel" || request.status === "reject") && (
                          <ButtonIcon
                          onClick={() => reAddRequets(request._id)}
                          svg={"/add.svg"}

@@ -8,6 +8,7 @@ import {
 import AccessibleNavigationAnnouncer from "./components/AccessibleNavigationAnnouncer";
 import useAuthStore from "./zustand/authStore";
 import { socket } from "./socket";
+import useNotyStore from "./zustand/notyStore";
 
 const Layout = lazy(() => import("./containers/Layout"));
 const Login = lazy(() => import("./pages/Login"));
@@ -47,8 +48,10 @@ function PublicRoute({ component: Component, restricted, ...rest }) {
 }
 
 function App() {
+  
   const { getInfoUser } = useAuthStore();
   const { isLogin, user } = useAuthStore();
+  const {addNotification} = useNotyStore()
   useEffect(() => {
     if (isLogin && user && user.role != "admin") {
       socket.connect();
@@ -63,7 +66,10 @@ function App() {
   }, [isLogin, user]);
   useEffect(() => {
     socket.on("noty", (noty) => {
-      console.log(noty);
+      console.log(noty)
+      if(noty.role == user?.role){
+        addNotification(noty)
+      }
     });
   }, []);
   useEffect(() => {
