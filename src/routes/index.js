@@ -16,6 +16,9 @@ import AddUniversity from "../pages/university/AddUniversity";
 import ListUniversities from "../pages/university/ListUnivercity";
 import UniversityDetail from "../pages/university/DetailUniverCity";
 import ChangePasswordScreen from "../pages/change-pass";
+import ListReview from "../pages/review/ListReview";
+import CreateEditReview from "../pages/review/AddReview";
+import MyReview from "../pages/review/MyReview";
 
 // use lazy for better code splitting, a.k.a. load faster
 const Dashboard = lazy(() => import("../pages/Dashboard"));
@@ -153,7 +156,26 @@ const routes = [
   {
     path: "/detail-university/:id",
     component: UniversityDetail,
-  }
+  },
+  // review
+  {
+    path: "/my-review",
+    component: MyReview,
+  },
+  {
+    path: "/list-review",
+    component: ListReview,
+  },
+  {
+    path: "/add-review",
+    component: CreateEditReview,
+  },
+  {
+    path: "/edit-review/:id",
+    component: CreateEditReview,
+  },
+
+
 ];
 
 export default routes;

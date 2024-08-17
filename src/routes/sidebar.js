@@ -43,6 +43,18 @@ const routes = [
     roles:["teacher"],
   },
   {
+    path: "/app/my-review",
+    icon: "RequestIcon",
+    name: "Đánh giá",
+    roles:["teacher"],
+  },
+  {
+    path: "/app/list-review",
+    icon: "Review",
+    name: "Danh sách đánh giá",
+    roles:["staff"],
+  },
+  {
     roles:["staff"],
     icon: "PostIcon",
     name: "Bài viết",

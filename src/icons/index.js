@@ -48,6 +48,8 @@ import { ReactComponent as Post4 } from "./post4.svg";
 import { ReactComponent as Rate4 } from "./rate4.svg";
 import { ReactComponent as School4 } from "./school4.svg";
 import { ReactComponent as Number4 } from "./number4.svg";
+import { ReactComponent as Review } from "./review10.svg";
+
 
 
 
@@ -104,5 +106,6 @@ export {
   RequestIcon,
   BookIcon,
   PostIcon,
-  SchoolIcon
+  SchoolIcon,
+  Review
 };

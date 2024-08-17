@@ -38,12 +38,13 @@ const AddTeacherForm = ({ currentItem, listTypeUser }) => {
     rating: 0,
     dateOfBirth: "",
     description: "",
+    confirmPassword: "",
   });
 
   const [errors, setErrors] = useState({});
 
   const onSubmit = async () => {
-    const {email,password,...bodyUpdate} = dataPost
+    const { email, password, ...bodyUpdate } = dataPost;
     try {
       id
         ? await teacherApi.updateTeacher(
@@ -58,7 +59,7 @@ const AddTeacherForm = ({ currentItem, listTypeUser }) => {
             universityId: user?.universityId,
           });
       message.success(id ? "Đã cập nhật giảng viên" : "Đã thêm giảng viên");
-        history.push("/app/list-teacher");
+      history.push("/app/list-teacher");
     } catch (error) {
       console.log(error);
       handleErrorHttp(error);
@@ -120,6 +121,10 @@ const AddTeacherForm = ({ currentItem, listTypeUser }) => {
         tempErrors.password = "Mật khẩu không được để trống.";
       if (dataPost.password && dataPost.password.length < 6)
         tempErrors.password = "Mật khẩu phải có ít nhất 6 ký tự.";
+
+      if (!currentItem && dataPost.password !== dataPost.confirmPassword) {
+        tempErrors.confirmPassword = "Mật khẩu không khớp";
+      }
     }
 
     if (!dataPost.dateOfBirth)
@@ -202,6 +207,24 @@ const AddTeacherForm = ({ currentItem, listTypeUser }) => {
                   {errors.password && (
                     <p className="text-red-500 text-xs mt-1">
                       {errors.password}
+                    </p>
+                  )}
+                </Label>
+              </>
+            )}
+            {!id && (
+              <>
+                <FormTitle>Xác nhận mật khẩu</FormTitle>
+                <Label className="mb-4">
+                  <Input
+                    type="password"
+                    value={dataPost.confirmPassword}
+                    onChange={onChangeDataPost("confirmPassword")}
+                    placeholder="Xác nhận mật khẩu"
+                  />
+                  {errors.confirmPassword && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.confirmPassword}
                     </p>
                   )}
                 </Label>

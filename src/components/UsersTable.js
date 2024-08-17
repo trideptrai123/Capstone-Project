@@ -6,7 +6,7 @@ import {
   TableContainer,
   TableFooter,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@windmill/react-ui";
 import React, { useEffect, useState } from "react";
 import { AddIcon } from "../icons";
@@ -17,7 +17,7 @@ import {
   CardBody,
   Input,
   Label,
-  Select
+  Select,
 } from "@windmill/react-ui";
 import { Modal, message } from "antd";
 import { handleErrorHttp } from "../error/HttpError";
@@ -33,7 +33,7 @@ export const listTypeUser = {
   "Student university": "Sinh viên đại học",
   "High school student": "Học sinh trung học",
 };
-const UserTable = ({ resultsPerPage  , filter }) => {
+const UserTable = ({ resultsPerPage, filter }) => {
   const [textSearch, setTextSearch] = useState("");
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
@@ -47,8 +47,10 @@ const UserTable = ({ resultsPerPage  , filter }) => {
     email: "",
     userType: "",
     password: "",
-    universityId:""
+    universityId: "",
+    confirmPassword:""
   });
+  const [err,setErr] = useState("")
   const [currentItem, setCurrentItem] = useState(null);
 
   const onChangeDataPost = (key) => (e) => {
@@ -65,7 +67,7 @@ const UserTable = ({ resultsPerPage  , filter }) => {
         name: currentItem?.name,
         email: currentItem?.email,
         userType: currentItem?.userType,
-        universityId:currentItem?.universityId
+        universityId: currentItem?.universityId,
       });
     }
   }, [currentItem]);
@@ -83,7 +85,7 @@ const UserTable = ({ resultsPerPage  , filter }) => {
       name: "",
       userType: "",
       email: "",
-      universityId:""
+      universityId: "",
     });
   };
   useEffect(() => {
@@ -101,11 +103,23 @@ const UserTable = ({ resultsPerPage  , filter }) => {
     }
   };
 
-  console.log(currentItem)
+  console.log(currentItem);
   //ADD/EDIT
   const handleSave = async () => {
+    if(!currentItem){
+
+      
+      if (!currentItem && dataPost.password !== dataPost.confirmPassword) {
+       setErr("Mật khẩu không khớp")
+        return;
+      }
+      else{
+        setErr("")
+      }
+    
+    }
     if (currentItem) {
-      console.log(currentItem)
+      console.log(currentItem);
       if (!dataPost?.name?.trim()) {
         message.error("Vui lòng nhập tên");
         return;
@@ -126,7 +140,7 @@ const UserTable = ({ resultsPerPage  , filter }) => {
               name: dataPost.name,
               email: dataPost.email,
               userType: dataPost.userType,
-              universityId:dataPost.universityId
+              universityId: dataPost.universityId,
             },
             currentItem?._id
           )
@@ -135,7 +149,7 @@ const UserTable = ({ resultsPerPage  , filter }) => {
             email: dataPost.email,
             password: dataPost.password,
             role: "staff",
-            universityId:dataPost.universityId
+            universityId: dataPost.universityId,
           });
       message.success("Lưu thành công");
       setCurrentItem(null);
@@ -157,7 +171,9 @@ const UserTable = ({ resultsPerPage  , filter }) => {
       setResponse(
         user.isAdmin ? res.data : res.data.filter((i) => i.role === "user")
       );
-      setData(res.data.slice((page - 1) * resultsPerPage, page * resultsPerPage));
+      setData(
+        res.data.slice((page - 1) * resultsPerPage, page * resultsPerPage)
+      );
     } catch (error) {
       handleErrorHttp(error);
     }
@@ -324,19 +340,37 @@ const UserTable = ({ resultsPerPage  , filter }) => {
                     </Label>
                   </>
                 )}
-                 <FormTitle>Trường học</FormTitle>
+               {
+                !currentItem &&  <>
+                <FormTitle>Nhập lại mật khẩu</FormTitle>
                 <Label>
-                <Select
-                  onChange={onChangeDataPost("universityId")}
-                  value={dataPost.universityId}
-                >
-                  <option disabled value={""}>
-                    {"Chọn Trường học"}
-                  </option>
-                  {listUni?.map((item) => (
-                    <option value={item._id}>{item.name}</option>
-                  ))}
-                </Select>
+                  <Input
+                    type="password"
+                    value={dataPost.confirmPassword}
+                    onChange={onChangeDataPost("confirmPassword")}
+                    className="mb-4"
+                    placeholder="Nhập lại mật khẩu"
+                  />
+                </Label>
+                {err && (
+                  <p className="text-red-500 text-sm">
+                    {err}
+                  </p>
+                )}</>
+               }
+                <FormTitle>Trường học</FormTitle>
+                <Label>
+                  <Select
+                    onChange={onChangeDataPost("universityId")}
+                    value={dataPost.universityId}
+                  >
+                    <option disabled value={""}>
+                      {"Chọn Trường học"}
+                    </option>
+                    {listUni?.map((item) => (
+                      <option value={item._id}>{item.name}</option>
+                    ))}
+                  </Select>
                 </Label>
                 {currentItem && currentItem.role == "user" && (
                   <>

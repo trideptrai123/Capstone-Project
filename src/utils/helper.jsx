@@ -139,3 +139,13 @@ export const renderMessage = (notification) => {
 
   return { content, type };
 };
+
+export const shortText = (lenghth,text) => {
+  if(!text)return "";
+  text = String(text);
+  if(text?.length > lenghth) {
+    return text?.substring(0,lenghth) + "..."
+  }
+  return text;
+
+}
