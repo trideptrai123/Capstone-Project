@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './UniversityDetails.css';
 import { useParams } from 'react-router-dom';
 import { BASE_URL } from '../../utils/constnats';
+import { StarFilled, HeartOutlined, HeartFilled } from "@ant-design/icons";
 
 const UniversityDetails = ({ universityId }) => {
   const {id} = useParams();
@@ -46,15 +47,21 @@ const UniversityDetails = ({ universityId }) => {
            
             <li><strong>Mã tuyển sinh:</strong> {university.admissionCode}</li>
             <li><strong>Địa điểm:</strong> {university.address}</li>
+            <li><strong>Năm thành lập:</strong> {university.establishedYear}</li>
+            <li><strong>Tỉnh/thành phố:</strong> {university.city}</li>
+
+
           </ul>
         </div>
         <div className="info-column" style={{
           marginTop:45
         }}>
           <ul>
-            <li><strong>Năm thành lập:</strong> {university.establishedYear}</li>
-            <li><strong>Tỉnh/thành phố:</strong> {university.city}</li>
             <li><strong>Website:</strong> <a href={university.website} target="_blank" rel="noopener noreferrer">{university.website}</a></li>
+            <li><strong>Xếp hạng năm 2024:</strong> {university.currentRanking}</li>
+            <li><strong>Đánh giá của giảng viên năm 2024: </strong>{!isNaN(university.averageRating) ? <>{Number(university.averageRating || 0).toFixed(1)} <StarFilled style={{ color: "gold" }} /></>:university.averageRating}</li>
+
+
           </ul>
         </div>
       </div>
