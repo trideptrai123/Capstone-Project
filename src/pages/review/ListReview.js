@@ -90,7 +90,7 @@ const ListReview = () => {
                 style={{
                   width: 300,
                 }}
-                placeholder={"Nhập tên ngành học"}
+                placeholder={"Nhập tên giảng viên"}
                 value={textSearch}
                 onChange={(e) => setTextSearch(e.target.value)}
               />
