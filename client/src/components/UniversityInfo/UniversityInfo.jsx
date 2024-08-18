@@ -66,9 +66,11 @@ const UniversityDetails = ({ universityId }) => {
         </div>
       </div>
 
-      <div className="description-section">
+      <div style={{
+        paddingLeft:18
+      }} className="description-section pl-10">
         <h2>GIỚI THIỆU CHUNG</h2>
-        <p>{university.description}</p>
+        <div style={{}} dangerouslySetInnerHTML={{ __html:university.description }} />
       </div>
     </div>
   );
