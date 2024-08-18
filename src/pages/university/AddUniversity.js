@@ -16,11 +16,48 @@ import { univerApi } from "../../api/univerApi";
 import SelectCity from "../../components/ListCity";
 import { DeleteOutlined } from "@ant-design/icons";
 import { data } from "autoprefixer";
+import ReactQuill from "react-quill";
+const modules = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+  clipboard: {
+    matchVisual: false,
+  },
+};
 
+const formats = [
+  "header",
+  "font",
+  "size",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "link",
+  "image",
+  "video",
+];
 const AddOrEditUniversity = () => {
   const history = useHistory();
   const { id } = useParams();
   const fileRef = useRef();
+  const  [content,setContent] = useState("");
+
   const [dataPost, setDataPost] = useState({
     name: "",
     city: "",
@@ -42,6 +79,7 @@ const AddOrEditUniversity = () => {
         try {
           const response = await univerApi.getUniversityById(id);
           setDataPost(response.data);
+          setContent(response.data.description)
         } catch (error) {
           console.error("Lỗi khi lấy thông tin trường đại học:", error);
         }
@@ -50,7 +88,10 @@ const AddOrEditUniversity = () => {
       fetchUniversity();
     }
   }, [id]);
-
+  const handleChangequill = (value) => {
+    setContent(value);
+    setDataPost({...dataPost,description:value})
+   };
   const validateForm = () => {
     let tempErrors = {};
     if (!dataPost.name) tempErrors.name = "Tên trường không được để trống.";
@@ -101,6 +142,8 @@ const AddOrEditUniversity = () => {
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
+
+  console.log(dataPost.description)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -160,6 +203,9 @@ const AddOrEditUniversity = () => {
     setDataPost({ ...dataPost, nationalRanking: updatedRanking });
   };
 
+  useState(() => {
+  setDataPost({...dataPost,description:content})
+  },[content])
   return (
     <div>
       <PageTitle>
@@ -240,20 +286,34 @@ const AddOrEditUniversity = () => {
                 )}
               </Label>
 
-              <Label className="mb-4">
+              <div className="mb-5">
                 <span className="text-white">Mô tả:</span>
-                <Textarea
+                {/* <Textarea
                   className="mt-1"
                   value={dataPost.description}
                   onChange={onChangeDataPost("description")}
                   placeholder="Nhập mô tả"
+                /> */}
+
+                <ReactQuill
+                  style={{
+                    height: 400,
+                    color: "#fff",
+                  }}
+                  value={content}
+                  onChange={handleChangequill}
+                  modules={modules}
+                  formats={formats}
+                  theme="snow"
                 />
-                {errors.description && (
-                  <p className="text-red-500 text-xs mt-1">
+                
+                  <p style={{
+                    visibility:!errors.description ? "hidden" :""
+                  }} className="text-red-500 text-xs mt-20">
                     {errors.description}
                   </p>
-                )}
-              </Label>
+                
+              </div>
 
               <Label className="mb-4">
                 <span className="text-white">Website:</span>
@@ -266,8 +326,8 @@ const AddOrEditUniversity = () => {
               </Label>
 
               <Label className="mb-4">
-             <div className="text-white">Xếp hạng quốc gia:</div>
-           
+                <div className="text-white">Xếp hạng quốc gia:</div>
+
                 {dataPost.nationalRanking.map((ranking, index) => (
                   <>
                     <div key={index} className="flex items-center mb-2">
@@ -277,16 +337,17 @@ const AddOrEditUniversity = () => {
                         onChange={(e) =>
                           handleRankingChange(index, "year", e.target.value)
                         }
-                      
                       >
                         <option value="">Chọn năm</option>
                         {Array.from(
                           { length: new Date().getFullYear() - 1799 },
                           (_, i) => (
                             <option
-                            disabled={dataPost.nationalRanking.some(
-                              (item, id) => item.year == new Date().getFullYear() - i && id !== index
-                            )}
+                              disabled={dataPost.nationalRanking.some(
+                                (item, id) =>
+                                  item.year == new Date().getFullYear() - i &&
+                                  id !== index
+                              )}
                               key={i}
                               value={new Date().getFullYear() - i}
                             >
@@ -305,7 +366,7 @@ const AddOrEditUniversity = () => {
                         placeholder="Xếp hạng"
                       />
                       <DeleteOutlined
-                      disabled={dataPost.nationalRanking.length === 1}
+                        disabled={dataPost.nationalRanking.length === 1}
                         onClick={() => removeRanking(index)}
                         className="ml-2 mt-2 text-white"
                       />
@@ -319,15 +380,14 @@ const AddOrEditUniversity = () => {
                     )}
                   </>
                 ))}
-              
-              <Button
+
+                <Button
                   onClick={addRanking}
                   type="button"
                   className="mb-4 bg-red-500"
                 >
                   + Thêm
                 </Button>
-
               </Label>
 
               <Label className="mb-4">
