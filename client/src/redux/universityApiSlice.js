@@ -45,6 +45,22 @@ export const universityApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["University"],
     }),
+
+    getListUniversity: builder.query({
+      query: () => ({
+        url: `${UNIVERSITIES_URL}`,
+      }),
+    }),
+
+    getMajors: builder.query({
+      query: (params) => {
+        const queryString = new URLSearchParams(params).toString();
+        return {
+          url: `/api/major/?${queryString}`,
+
+        }
+      },
+    }),
   }),
 });
 
@@ -54,4 +70,6 @@ export const {
   useCreateUniversityMutation,
   useUpdateUniversityMutation,
   useDeleteUniversityMutation,
+  useGetListUniversityQuery,
+  useGetMajorsQuery,
 } = universityApiSlice;

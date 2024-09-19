@@ -1,0 +1,54 @@
+/* Style for the comparison container */
+.comparison-container {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Style for the heading */
+  .comparison-container h3 {
+    color: red;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  /* Style for the list */
+  .comparison-container ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .comparison-container ul li {
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    color: #495057;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  /* Add some color for better visibility */
+  .comparison-container ul li:nth-child(odd) {
+    background-color: #e9ecef;
+  }
+  
+  /* Add responsive styles for better readability on smaller screens */
+  @media (max-width: 768px) {
+    .comparison-container h3 {
+      font-size: 1.25rem;
+    }
+  
+    .comparison-container ul li {
+      font-size: 0.9rem;
+    }
+  }
+  

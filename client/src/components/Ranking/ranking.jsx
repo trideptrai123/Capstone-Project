@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, message, Select, Spin, Table, Tooltip } from "antd";
-import { StarFilled, HeartOutlined, HeartFilled } from "@ant-design/icons";
+import { StarFilled, HeartOutlined, HeartFilled, BackwardOutlined,ControlOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
+  useCompareUniversityMutation,
   useGetUserProfileQuery,
   useLikeUniversityMutation,
+  useUnlikecompareUniversityMutation,
   useUnlikeUniversityMutation,
 } from "../../redux/usersApiSlice";
 import { useGetUniversitiesQuery } from "../../redux/universityApiSlice";
 import "./RankingScreen.css"; // Custom CSS for additional styling
 import FilterRanking from "./filerranking";
+import { data } from "autoprefixer";
 
 const { Option } = Select;
 
@@ -40,9 +43,16 @@ const RankingScreen = () => {
   const [likeUniversity] = useLikeUniversityMutation();
   const [unlike] = useUnlikeUniversityMutation();
 
+  const [compareUniversity] = useCompareUniversityMutation();
+  const [uncompareUniversity] = useUnlikecompareUniversityMutation();
+
+
   const history = useNavigate();
 
+  
   const handleLike = async (universityId) => {
+   
+  
     try {
       await likeUniversity(universityId);
       message.success("Đã thêm trường đại học vào danh sách yêu thích");
@@ -51,6 +61,7 @@ const RankingScreen = () => {
     } catch (error) {
       console.error("Error liking university:", error);
     }
+  
   };
 
   const handleUnlike = async (universityId) => {
@@ -64,6 +75,39 @@ const RankingScreen = () => {
     }
   };
 
+  const handleCompare = async (universityId) => {
+    if(userProfile && userProfile.compareUniversities.length >= 2){
+      message.success("Không thể thêm trường để so sánh");
+    }
+    else{
+    try {
+      await compareUniversity(universityId);
+      message.success("Đã xử lý");
+      refetchUserProfile();
+      refetch();
+    } catch (error) {
+      console.error("Error comparing university:", error);
+      if (error.response && error.response.data && error.response.data.message) {
+        message.error(error.response.data.message);
+      } else {
+        message.error("Đã xảy ra lỗi khi thêm trường đại học vào danh sách so sánh");
+      }
+      return; // Ensure no further code runs after an error
+    }
+  }
+  };
+
+  const handleUnCompare = async (universityId) => {
+    try {
+      await uncompareUniversity(universityId);
+      message.success("Đã xóa trường đại học khỏi danh sách so sánh");
+      refetchUserProfile();
+      refetch();
+    } catch (error) {
+      console.error("Error unliking university:", error);
+    }
+  };
+ 
   const handleTableChange = (pagination, filters, sorter) => {
     const order = sorter.order === "ascend" ? "asc" : "desc";
     const sortField = sorter.field;
@@ -114,7 +158,7 @@ const RankingScreen = () => {
 
       render: (text, record) => (
         <span
-          onClick={() => history(`/UniversityInfo/${record._id}`)}
+          onClick={() => history(`/UniversityInfo/${record._id}`, { state: { averageMajorScore: record.averageMajorScore } })}
           style={{ color: "#2196F3", fontWeight: "bold", cursor: "pointer" }}
         >
           {text}
@@ -200,6 +244,38 @@ const RankingScreen = () => {
           ) : (
             <Tooltip title="Thích">
               <HeartOutlined size={"large"} />
+            </Tooltip>
+          )}
+        </div>
+      ),
+    });
+  }
+
+  if (user) {
+    columns.push({
+      title: "So sánh",
+      dataIndex: "2",
+      key: "2",
+      align: "center",
+      render: (text, row) => (
+        <div
+          onClick={() =>
+            !row?.isCompare ? handleCompare(row?._id) : handleUnCompare(row?._id)
+          }
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
+          {row.isCompare ? (
+            <Tooltip title="Bỏ so sánh">
+              <ControlOutlined size={"large"} style={{ color: "red" }} />
+            </Tooltip>
+          ) : (
+            <Tooltip title="So sánh">
+              <ControlOutlined size={"large"} />
             </Tooltip>
           )}
         </div>

@@ -1,0 +1,27 @@
+.comment-list{
+    
+}
+.ant-comment-content-author{
+    
+}
+.ant-comment-content-author-name{
+    font-weight: bold;
+}
+.ant-comment-content{
+    display: flex;
+    flex-direction: column;
+}
+.ant-comment-actions{
+  padding: 0 !important;
+  margin-top: 0 !important;
+}
+.ant-comment-inner{
+    padding-block: 10px !important ;
+    /* background-color: #e1e4e9; */
+    padding-inline: 10px;
+    max-width: 600px;
+}
+.ant-comment-content-detail{
+    color: black;
+    font-weight: 400;
+}

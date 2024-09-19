@@ -19,7 +19,7 @@ const NavBar = () => {
   const logoutHandler = async () => {
     try {
       await logoutApiCall().unwrap();
-      localStorage.removeItem(LOCALSTORAGE_KEY.token)
+      localStorage.removeItem(LOCALSTORAGE_KEY.token);
       dispatch(logout());
       navigate("/login");
     } catch (err) {
@@ -91,6 +91,15 @@ const NavBar = () => {
                 </a>
               </LinkContainer>
             </li>
+            {userInfo ? (
+              <li className="nav-item">
+                <LinkContainer to="/compare">
+                  <a className="nav-link" href="/">
+                    So sánh
+                  </a>
+                </LinkContainer>
+              </li>
+            ) : null}
           </ul>
           <ul className="navbar-nav ml-auto">
             {userInfo ? (
@@ -103,10 +112,10 @@ const NavBar = () => {
                     Thông tin người dùng
                   </a>
                 </LinkContainer>
-                
+
                 <LinkContainer to="/change-pass">
                   <a className="dropdown-item" href="/">
-                   Đổi mật khẩu
+                    Đổi mật khẩu
                   </a>
                 </LinkContainer>
                 <NavDropdown.Item onClick={logoutHandler}>

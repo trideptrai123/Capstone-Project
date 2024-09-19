@@ -4,11 +4,13 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "antd";
 import { Input, Select } from "antd";
 import { useRegisterMutation } from "../../redux/usersApiSlice";
+
+import { useGetListUniversityQuery } from "../../redux/universityApiSlice";
 import { setCredentials } from "../../redux/authSlice";
 import { toast } from "react-toastify";
 import "./RegisterScreen.css";
 import { LOCALSTORAGE_KEY } from "../Login/Login";
-
+import axios from "axios";
 const { Option } = Select;
 
 const RegisterScreen = () => {
@@ -18,6 +20,26 @@ const RegisterScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userType, setUserType] = useState("");
   const [errors, setErrors] = useState({});
+
+  const { data: listUni } = useGetListUniversityQuery();
+
+ // const [listUni, setUniversities] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchUniversities = async () => {
+  //     try {
+  //       const { data } = await axios.get("http://localhost:4000/api/universities");
+  //       setUniversities(data);
+  //     } catch (error) {
+  //       console.error("Failed to fetch universities:", error);
+  //     }
+  //   };
+
+  //   if (userType === "Old university") {
+  //     fetchUniversities();
+  //   }
+  // }, [userType]);
+
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,12 +51,13 @@ const RegisterScreen = () => {
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const redirect = sp.get("redirect") || "/";
-
+  const [universityId, setUniversityId] = useState("");
   useEffect(() => {
     if (userInfo) {
       navigate(redirect);
     }
-  }, [navigate, redirect, userInfo]);
+   
+  }, [navigate, redirect, userInfo, userType]);
 
   const validate = () => {
     const newErrors = {};
@@ -51,6 +74,7 @@ const RegisterScreen = () => {
     return newErrors;
   };
 
+  
   const submitHandler = async (e) => {
     e.preventDefault();
     const newErrors = validate();
@@ -58,7 +82,7 @@ const RegisterScreen = () => {
       setErrors(newErrors);
     } else {
       try {
-        const res = await register({ name, email, password, userType }).unwrap();
+        const res = await register({ name, email, password, userType,universityId }).unwrap();
         localStorage.setItem(LOCALSTORAGE_KEY.token,res?.token)
         dispatch(setCredentials({ ...res }));
         navigate(redirect);
@@ -124,11 +148,30 @@ const RegisterScreen = () => {
               className="w-[400px]"
             >
               <Option value="">Chọn loại người dùng</Option>
-              <Option value="Student university">Student university</Option>
               <Option value="High school student">Student high school</Option>
+              <Option value="Old university">Old university</Option>
             </Select>
             {errors.userType && <p className="text-red-500 text-xs mt-1">{errors.userType}</p>}
           </div>
+          {userType === "Old university" && (
+            <div>
+              <Select
+                size="large"
+                value={universityId}
+                onChange={(value) => setUniversityId(value)}
+                className="w-[400px]"
+              >
+                <Option disabled value="">
+                  Chọn Trường học
+                </Option>
+                {listUni?.map((item) => (
+                  <Option key={item._id} value={item._id}>
+                    {item.name}
+                  </Option>
+                ))}
+              </Select>
+            </div>
+          )}
           <Button
             type="primary"
             htmlType="submit"

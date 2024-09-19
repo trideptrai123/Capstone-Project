@@ -3,11 +3,24 @@ import './UniversityDetails.css';
 import { useParams } from 'react-router-dom';
 import { BASE_URL } from '../../utils/constnats';
 import { StarFilled, HeartOutlined, HeartFilled } from "@ant-design/icons";
+import ListComment from "../commentUniversity/ListComment";
+import { useSelector } from "react-redux";
+import { useGetUniversitiesQuery } from "../../redux/universityApiSlice";
+import { useLocation } from 'react-router-dom';
 
 const UniversityDetails = ({ universityId }) => {
+  const location = useLocation();
+  const { averageMajorScore } = location.state || {};
+
   const {id} = useParams();
   const [university,setUniversity] = useState()
+  const {userInfo} = useSelector(state => state.auth)
+ 
+  const {
+    data: universities,
+  } = useGetUniversitiesQuery({ ...null, universityId: universityId || "" });
 
+  console.log(universities)
   useEffect(() => {
     const fetchUniversity = async () => {
       try {
@@ -23,7 +36,7 @@ const UniversityDetails = ({ universityId }) => {
   }, [id]);
 
   if (!university) return <div>Loading...</div>;
-
+  console.log(university);
   return (
     <div className="container">
       <div className="header">
@@ -60,8 +73,8 @@ const UniversityDetails = ({ universityId }) => {
             <li><strong>Website:</strong> <a href={university.website} target="_blank" rel="noopener noreferrer">{university.website}</a></li>
             <li><strong>Xếp hạng năm 2024:</strong> {university.currentRanking}</li>
             <li><strong>Đánh giá của giảng viên năm 2024: </strong>{!isNaN(university.averageRating) ? <>{Number(university.averageRating || 0).toFixed(1)} <StarFilled style={{ color: "gold" }} /></>:university.averageRating}</li>
-
-
+            <li><strong>Điểm cơ sở vật chất: </strong>{!isNaN(university.facilitiesStandards) ? university.facilitiesStandards: null}</li>
+            <li><strong>Điểm trung bình ngành học: </strong>{!isNaN(averageMajorScore) ? Number(averageMajorScore || 0).toFixed(1): null}</li>
           </ul>
         </div>
       </div>
@@ -72,6 +85,7 @@ const UniversityDetails = ({ universityId }) => {
         <h2>GIỚI THIỆU CHUNG</h2>
         <div style={{}} dangerouslySetInnerHTML={{ __html:university.description }} />
       </div>
+      { <ListComment />}
     </div>
   );
 };

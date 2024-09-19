@@ -33,7 +33,7 @@ import Chats from './components/Chat/Chats';
 import ContactUs from './components/contact/Contact';
 import ChangePasswordScreen from './components/register/ChangePassword';
 import IntroductionPage from './components/intro/IntroPage';
-
+import UniversityComparison from './components/compare/compare';
 
 
 const router = createBrowserRouter(
@@ -54,6 +54,8 @@ const router = createBrowserRouter(
         <Route path='/profile' element={<ProfilePage />} />
        
         <Route path='/chat' element={<Chats />} />
+
+        <Route path='/compare' element={<UniversityComparison />} />
         <Route path='/change-pass' element={<ChangePasswordScreen />} />
        
       </Route>

@@ -79,6 +79,20 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User'],
     }),
+    compareUniversity: builder.mutation({
+      query: (id) => ({
+        url: `${USERS_URL}/compare/${id}`,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['User'],
+    }),
+    unlikecompareUniversity: builder.mutation({
+      query: (id) => ({
+        url: `${USERS_URL}/uncompare/${id}`,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
@@ -94,4 +108,7 @@ export const {
   useLikeUniversityMutation,
   useUnlikeUniversityMutation,
   useGetUserProfileQuery,
+  useCompareUniversityMutation,
+  useUnlikecompareUniversityMutation,
+
 } = userApiSlice;
