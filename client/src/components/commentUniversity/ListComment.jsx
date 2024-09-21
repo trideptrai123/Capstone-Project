@@ -31,7 +31,6 @@ export const AddComment = ({
   const [value, setValue] = useState("");
   const [rating, setRating] = useState(0);
 
-  console.log(isAnswer);
 
   const [addComment, { isLoading }] = useAddCommentMutation();
   const [updateComment, { isLoadingUpdate }] = useUpdateCommentMutation();
@@ -258,7 +257,7 @@ const ListCommentUniversity = () => {
         }}
       >{`${lengthComment} bình luận`}</p>
     {userInfo  && userInfo?.universityId === id  &&
-      <AddComment />
+      <AddComment isAnswer={isAnswer}/>
     }
       <List
         className="comment-list"
@@ -303,6 +302,7 @@ const ListCommentUniversity = () => {
                   />
                   {currentIdReply2 === i.id && (
                     <AddComment
+                    isAnswer={isAnswer}
                     isReply = {true}
                       itemUpdate={getItemUpdate(i)}
                       mode={mode}

@@ -75,6 +75,7 @@ const UniversityDetails = ({ universityId }) => {
             <li><strong>Đánh giá của giảng viên năm 2024: </strong>{!isNaN(university.averageRating) ? <>{Number(university.averageRating || 0).toFixed(1)} <StarFilled style={{ color: "gold" }} /></>:university.averageRating}</li>
             <li><strong>Điểm cơ sở vật chất: </strong>{!isNaN(university.facilitiesStandards) ? university.facilitiesStandards: null}</li>
             <li><strong>Điểm trung bình ngành học: </strong>{!isNaN(averageMajorScore) ? Number(averageMajorScore || 0).toFixed(1): null}</li>
+             <li><strong>Đánh giá của sinh viên: </strong>{!isNaN(university.averageRatingStudent) ? <>{Number(university.averageRatingStudent || 0).toFixed(1)} <StarFilled style={{ color: "gold" }} /></>:university.averageRatingStudent}</li> 
           </ul>
         </div>
       </div>
